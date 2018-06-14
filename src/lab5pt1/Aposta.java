@@ -5,8 +5,6 @@ public class Aposta {
 	// Atributos
 	private String nomeApostador;
 
-	private int cenario;
-
 	private int valor;
 
 	private String previsao;

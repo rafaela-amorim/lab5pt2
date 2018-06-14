@@ -6,7 +6,7 @@ public class Cenario {
 	
 	private String descricao;
 	
-	private String estado;
+	private Estado estado;
 	
 	// Construtor
 	
@@ -20,7 +20,7 @@ public class Cenario {
 		}
 		
 		this.descricao = descricao;
-		estado = "Não finalizado";
+		estado = Estado.N_FINALIZADO;
 	}
 	
 	// Métodos
@@ -30,7 +30,7 @@ public class Cenario {
 	}
 
 	public String getEstado() {
-		return estado;
+		return estado.getDescricao();
 	}
 	
 	public String toString() {
