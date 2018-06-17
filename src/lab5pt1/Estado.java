@@ -8,14 +8,28 @@ public enum Estado {
 	
 	private String descricao;
 	
-	Estado(String descricao) {
+	/**
+	 * Construtor do Enum, recebe uma String que será o Estado.
+	 * 
+	 * @param descricao 
+	 * 				Descrição do Estado.
+	 */
+	private Estado(String descricao) {
 		this.descricao = descricao;
 	}
 	
+	/**
+	 * Retorna a descrição do Estado.
+	 * 
+	 * @return Descrição do Estado.
+	 */
 	public String getDescricao() {
 		return this.descricao;
 	}
 	
+	/**
+	 * Representação textual do Estado.
+	 */
 	@Override
 	public String toString() {
 		return getDescricao();

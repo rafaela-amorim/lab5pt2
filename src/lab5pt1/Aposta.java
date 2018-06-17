@@ -24,45 +24,50 @@ public class Aposta {
 	 * @param previsao
 	 *            Previsão da aposta, se vai acontecer ou não.
 	 */
-	public Aposta(int cenario, String nomeApostador, int valor, String previsao) {
-		if (nomeApostador == null || previsao == null) {
-			throw new NullPointerException();
-		}
-
-		if (nomeApostador.trim().length() == 0) {
-			throw new IllegalArgumentException();
-		}
-
-		if (previsao.trim().length() == 0) {
-			throw new IllegalArgumentException();
-		}
-
-		this.cenario = cenario;
+	public Aposta(String nomeApostador, int valor, String previsao) {
+		// fazer método para testar argumentos inválidos
 		this.nomeApostador = nomeApostador;
 		this.valor = valor;
 		this.previsao = previsao;
 	}
 
 	// Métodos
+
+	/**
+	 * Retorna o nome do apostador.
+	 * 
+	 * @return nome do apostador
+	 */
 	public String getNomeApostador() {
 		return nomeApostador;
 	}
 
-	public int getCenario() {
-		return cenario;
-	}
-
+	/**
+	 * Retorna o valor da aposta.
+	 * 
+	 * @return Valor da aposta.
+	 */
 	public int getValor() {
 		return valor;
 	}
 
+	/**
+	 * Retorna a previsão da aposta.
+	 * 
+	 * @return Previsão da aposta
+	 */
 	public String getPrevisao() {
 		return previsao;
 	}
 
+	/**
+	 * Retorna a representação textual da aposta, no seguinte formato: NOME
+	 * APOSTADOR - R$ VALOR,00 - PREVISÃO
+	 */
 	@Override
 	public String toString() {
-		return nomeApostador + " - " + "R$" + valor + ",00" + " - " + previsao;
+		return nomeApostador + " - " + "R$" + (valor / 100) + ",00" + " - " + previsao;
 	}
 
+	// private testaNull()
 }
