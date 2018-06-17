@@ -18,19 +18,26 @@ public class Cenario {
 
 	private int caixaContra;
 
+	private double porcentagem;
+
+	private int rateio;
+
 	// Construtor
 
 	/**
 	 * Construtor da classe, recebe apenas a descrição do cenário como parâmetro.
 	 * Inicializa o cenário como não finalizado, inicializa os ArrayLists que
 	 * armazenarão os apostadores favoráveis e contra o cenário. Além disso,
-	 * determina que as variáveis que guardam os caixas totais das apostas iniciam
-	 * em 0.
+	 * determina que as variáveis que guardam os caixas totais e o rateio das
+	 * apostas iniciam em 0.
 	 * 
 	 * @param descricao
 	 *            É a descrição do cenário.
+	 * @param porcentagem
+	 *            A porcentagem para calcular o montante de dinheiro que vai pro
+	 *            caixa do sistema e o que vai para os ganhadores da aposta.
 	 */
-	public Cenario(String descricao) {
+	public Cenario(String descricao, double porcentagem) {
 		// metodo para verificar argumentos inválidos
 		if (descricao == null) {
 			throw new NullPointerException();
@@ -41,11 +48,13 @@ public class Cenario {
 		}
 
 		this.descricao = descricao;
+		this.porcentagem = porcentagem;
 		estado = Estado.N_FINALIZADO;
 		favoravel = new ArrayList<>();
 		contra = new ArrayList<>();
 		caixaFavoravel = 0;
 		caixaContra = 0;
+		rateio = 0;
 	}
 
 	// Métodos
@@ -103,23 +112,31 @@ public class Cenario {
 
 	/**
 	 * Verifica se o cenário já foi fechado, se sim, retorna uma flag. Senão, muda o
-	 * estado de acordo com o boolean se o cenário ocorreu ou não e retorna o valor
-	 * do caixa das apostas perdedoras.
+	 * estado de acordo com o boolean se o cenário ocorreu ou não, calcula a
+	 * porcentagem do caixa adquirido que vai para o Sistema e o que vai para os
+	 * vencedores.
 	 * 
 	 * @param ocorreu
 	 *            Boolean que indica se o cenário ocorreu ou não.
-	 * @return Retorna o valor do caixa perdedor, ou -1 caso o cenário já tivesse
-	 *         sido fechado antes.
+	 * @return Retorna o valor do caixa que vai para o Sistema, ou -1 caso o cenário
+	 *         já tivesse sido fechado.
 	 */
 	public int fecharAposta(boolean ocorreu) {
 		if (estado.toString().equals("Não finalizado")) {
+			int aux;
+
 			if (ocorreu) {
 				estado = Estado.OCORREU;
-				return caixaContra;
+				aux = (int) Math.floor(caixaContra * porcentagem);
+				rateio = caixaContra - aux;
+
 			} else {
 				estado = Estado.N_OCORREU;
-				return caixaFavoravel;
+				aux = (int) Math.floor(caixaFavoravel * porcentagem);
+				rateio = caixaFavoravel - aux;
 			}
+
+			return aux;
 		}
 
 		return -1;
@@ -164,9 +181,17 @@ public class Cenario {
 	}
 
 	/**
+	 * Retorna o rateio das apostas.
+	 * 
+	 * @return rateio das apostas.
+	 */
+	public int getRateio() {
+		return rateio;
+	}
+
+	/**
 	 * Representação textual do cenário, contém a descrição e o estado atual do
-	 * cenário. A String se dá no seguinte formato:
-	 * DESCRIÇÃO - ESTADO
+	 * cenário. A String se dá no seguinte formato: DESCRIÇÃO - ESTADO
 	 */
 	@Override
 	public String toString() {
