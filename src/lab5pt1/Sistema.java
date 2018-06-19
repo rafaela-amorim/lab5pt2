@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Sistema {
-	
+
 	// Atributos
-	
+
 	private int indiceCenarios;
 
 	private int caixa;
@@ -14,7 +14,7 @@ public class Sistema {
 	private double taxa;
 
 	private HashMap<Integer, Cenario> cenarios;
-	
+
 	private Validador valida;
 
 	// Construtores
@@ -45,9 +45,18 @@ public class Sistema {
 	 * @param descricao
 	 *            Descrição do cenário.
 	 */
-	public void cadastraCenario(String descricao) {
+
+	/**
+	 * Cadastra um novo cenário no Sistema.
+	 * 
+	 * @param descricao
+	 *            Descrição do cenário.
+	 * @return O índice do cenário cadastrado.
+	 */
+	public int cadastraCenario(String descricao) {
 		Cenario aux = new Cenario(descricao, taxa);
 		cenarios.put(indiceCenarios++, aux);
+		return indiceCenarios;
 	}
 
 	/**
@@ -87,7 +96,7 @@ public class Sistema {
 	 * 
 	 * @return String em forma de lista com todos os cenários cadastrados.
 	 */
-	public String exibeCenarios() {
+	public String exibirCenarios() {
 		String lista = "";
 
 		for (Map.Entry<Integer, Cenario> par : cenarios.entrySet()) {
