@@ -8,6 +8,8 @@ public class Aposta {
 	private int valor;
 
 	private String previsao;
+	
+	private Validador valida;
 
 	// Construtor
 
@@ -25,10 +27,9 @@ public class Aposta {
 	 *            Previsão da aposta, se vai acontecer ou não.
 	 */
 	public Aposta(String nomeApostador, int valor, String previsao) {
-		// fazer método para testar argumentos inválidos
-		this.nomeApostador = nomeApostador;
-		this.valor = valor;
-		this.previsao = previsao;
+		this.nomeApostador = valida.nomeApostador(nomeApostador);
+		this.valor = valida.valorAposta(valor);
+		this.previsao = valida.previsaoAposta(previsao);
 	}
 
 	// Métodos
@@ -69,5 +70,4 @@ public class Aposta {
 		return nomeApostador + " - " + "R$" + (valor / 100) + ",00" + " - " + previsao;
 	}
 
-	// private testaNull()
 }

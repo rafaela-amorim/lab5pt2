@@ -21,6 +21,8 @@ public class Cenario {
 	private double porcentagem;
 
 	private int rateio;
+	
+	private Validador valida;
 
 	// Construtor
 
@@ -38,17 +40,9 @@ public class Cenario {
 	 *            caixa do sistema e o que vai para os ganhadores da aposta.
 	 */
 	public Cenario(String descricao, double porcentagem) {
-		// metodo para verificar argumentos inválidos
-		if (descricao == null) {
-			throw new NullPointerException();
-		}
 
-		if (descricao.trim().length() == 0) {
-			throw new IllegalArgumentException();
-		}
-
-		this.descricao = descricao;
-		this.porcentagem = porcentagem;
+		this.descricao = valida.descricaoCenario(descricao);
+		this.porcentagem = valida.porcentagemCenario(porcentagem);
 		estado = Estado.N_FINALIZADO;
 		favoravel = new ArrayList<>();
 		contra = new ArrayList<>();

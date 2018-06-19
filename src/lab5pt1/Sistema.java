@@ -14,6 +14,8 @@ public class Sistema {
 	private double taxa;
 
 	private HashMap<Integer, Cenario> cenarios;
+	
+	private Validador valida;
 
 	// Construtores
 
@@ -29,11 +31,10 @@ public class Sistema {
 	 *            Taxa para calcular o ganho do Sistema.
 	 */
 	public Sistema(int caixa, double taxa) {
-		// métodos para verificar argumentos inválidos
 		cenarios = new HashMap<>();
 		indiceCenarios = 1;
-		this.caixa = caixa;
-		this.taxa = taxa;
+		this.caixa = valida.caixaSistema(caixa);
+		this.taxa = valida.taxaSistema(taxa);
 	}
 
 	// Métodos
