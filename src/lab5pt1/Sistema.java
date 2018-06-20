@@ -31,6 +31,7 @@ public class Sistema {
 	 *            Taxa para calcular o ganho do Sistema.
 	 */
 	public Sistema(int caixa, double taxa) {
+		valida = new Validador();
 		cenarios = new HashMap<>();
 		indiceCenarios = 1;
 		this.caixa = valida.caixaSistema(caixa);
@@ -40,11 +41,19 @@ public class Sistema {
 	// Métodos
 
 	/**
-	 * Cadastra um novo cenário no Sistema.
+	 * verifica a existencia do cenário no sistema.
 	 * 
-	 * @param descricao
-	 *            Descrição do cenário.
+	 * @param index
+	 *            numeração do cenário.
 	 */
+	private void verificaCenario(int index) {
+		if (index < 1) {
+			throw new IllegalAccessError("Cenario invalido");
+		}
+		if (!(cenarios.containsKey(index))) {
+			throw new IllegalAccessError("Cenario nao cadastrado");
+		}
+	}
 
 	/**
 	 * Cadastra um novo cenário no Sistema.
@@ -73,9 +82,8 @@ public class Sistema {
 	 *            Previsão da aposta.
 	 */
 	public void cadastraAposta(int cenario, String nome, int valor, String previsao) {
-		if (cenario < cenarios.size() && cenario > 0) {
-			cenarios.get(cenario).cadastraAposta(nome, valor, previsao);
-		}
+		verificaCenario(cenario);
+		cenarios.get(cenario).cadastraAposta(nome, valor, previsao);
 	}
 
 	/**
@@ -87,6 +95,7 @@ public class Sistema {
 	 * @return Representação textual do cenário.
 	 */
 	public String exibirCenario(int cenario) {
+		verificaCenario(cenario);
 		return cenarios.get(cenario).toString();
 	}
 
@@ -114,7 +123,8 @@ public class Sistema {
 	 * @return Retorna o valor total que foi apostado nesse cenário.
 	 */
 	public int valorTotalDeApostas(int cenario) {
-		return cenarios.get(cenario).getCaixa();
+		verificaCenario(cenario);
+		return cenarios.get(cenario).valorTotalDeAposta();
 	}
 
 	/**
@@ -125,6 +135,7 @@ public class Sistema {
 	 * @return A quantidade de apostas que foram feitas nesse cenário.
 	 */
 	public int totalDeApostas(int cenario) {
+		verificaCenario(cenario);
 		return cenarios.get(cenario).totalDeApostas();
 	}
 
@@ -136,6 +147,7 @@ public class Sistema {
 	 * @return String em forma de lista com todas as apostas do cenário.
 	 */
 	public String exibeApostas(int cenario) {
+		verificaCenario(cenario);
 		return cenarios.get(cenario).exibeApostas();
 	}
 
@@ -149,10 +161,13 @@ public class Sistema {
 	 *            Boolean que indica se o cenário ocorreu ou não.
 	 */
 	public void fecharAposta(int cenario, boolean ocorreu) {
-		int porcentagemCaixa = cenarios.get(cenario).fecharAposta(ocorreu);
+		verificaCenario(cenario);
+		cenarios.get(cenario).fecharAposta(ocorreu);
 
-		if (porcentagemCaixa != -1) {
-			caixa += porcentagemCaixa;
+		int caixaCenario = cenarios.get(cenario).getCaixaCenario();
+
+		if (caixaCenario != -1) {
+			caixa += caixaCenario;
 		}
 	}
 
@@ -165,6 +180,7 @@ public class Sistema {
 	 * @return Retorna o valor a ser distribuído entre os ganhadores.
 	 */
 	public int getTotalRateioCenario(int cenario) {
+		verificaCenario(cenario);
 		return cenarios.get(cenario).getRateio();
 	}
 
@@ -178,13 +194,15 @@ public class Sistema {
 	}
 
 	/**
-	 * Retorna o caixa de um determinado cenário.
+	 * Retorna a quantia de dinheiro que irá para o caixa do Sistema quando as
+	 * apostas forem encerradas, se isso ainda não tiver ocorrido, então retorna -1.
 	 * 
 	 * @param cenario
-	 *            Representa o cenário em questão.
-	 * @return Retorna o total do caixa do cenário.
+	 *            numeração do cenário
+	 * @return O dinheiro que irá para o Sistema ou -1.
 	 */
 	public int getCaixaCenario(int cenario) {
-		return cenarios.get(cenario).getCaixa();
+		verificaCenario(cenario);
+		return cenarios.get(cenario).getCaixaCenario();
 	}
 }

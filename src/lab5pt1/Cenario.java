@@ -21,7 +21,9 @@ public class Cenario {
 	private double porcentagem;
 
 	private int rateio;
-	
+
+	private int caixaCenario;
+
 	private Validador valida;
 
 	// Construtor
@@ -31,7 +33,9 @@ public class Cenario {
 	 * Inicializa o cenário como não finalizado, inicializa os ArrayLists que
 	 * armazenarão os apostadores favoráveis e contra o cenário. Além disso,
 	 * determina que as variáveis que guardam os caixas totais e o rateio das
-	 * apostas iniciam em 0.
+	 * apostas iniciam em 0 e o caixaCenario inicializa em uma flag (-1) indicando
+	 * que o cenário não foi fechado e ainda não há dinheiro separado para o caixa
+	 * do Sistema.
 	 * 
 	 * @param descricao
 	 *            É a descrição do cenário.
@@ -40,7 +44,8 @@ public class Cenario {
 	 *            caixa do sistema e o que vai para os ganhadores da aposta.
 	 */
 	public Cenario(String descricao, double porcentagem) {
-
+		valida = new Validador();
+		
 		this.descricao = valida.descricaoCenario(descricao);
 		this.porcentagem = valida.porcentagemCenario(porcentagem);
 		estado = Estado.N_FINALIZADO;
@@ -48,6 +53,7 @@ public class Cenario {
 		contra = new ArrayList<>();
 		caixaFavoravel = 0;
 		caixaContra = 0;
+		caixaCenario = -1;
 		rateio = 0;
 	}
 
@@ -115,25 +121,20 @@ public class Cenario {
 	 * @return Retorna o valor do caixa que vai para o Sistema, ou -1 caso o cenário
 	 *         já tivesse sido fechado.
 	 */
-	public int fecharAposta(boolean ocorreu) {
+	public void fecharAposta(boolean ocorreu) {
 		if (estado.toString().equals("Não finalizado")) {
-			int aux;
 
 			if (ocorreu) {
 				estado = Estado.OCORREU;
-				aux = (int) Math.floor(caixaContra * porcentagem);
-				rateio = caixaContra - aux;
+				caixaCenario = (int) Math.floor(caixaContra * porcentagem);
+				rateio = caixaContra - caixaCenario;
 
 			} else {
 				estado = Estado.N_OCORREU;
-				aux = (int) Math.floor(caixaFavoravel * porcentagem);
-				rateio = caixaFavoravel - aux;
+				caixaCenario = (int) Math.floor(caixaFavoravel * porcentagem);
+				rateio = caixaFavoravel - caixaCenario;
 			}
-
-			return aux;
 		}
-
-		return -1;
 	}
 
 	/**
@@ -147,12 +148,23 @@ public class Cenario {
 	}
 
 	/**
+	 * Método que retorna a quantidade de dinheiro que irá para o caixa do Sistema
+	 * quando as apostas forem encerradas, antes disso o caixaCenario é -1 indicando
+	 * que a quantia do Sistema ainda não foi determinada.
+	 * 
+	 * @return a quantia de dinheiro que irá para o sistema ou -1.
+	 */
+	public int getCaixaCenario() {
+		return caixaCenario;
+	}
+
+	/**
 	 * Método que calcula o caixa total do cenário, somando o caixa das apostas
 	 * favoráveis com o das apostas contra.
 	 * 
 	 * @return Caixa total do cenário.
 	 */
-	public int getCaixa() {
+	public int valorTotalDeAposta() {
 		return caixaFavoravel + caixaContra;
 	}
 

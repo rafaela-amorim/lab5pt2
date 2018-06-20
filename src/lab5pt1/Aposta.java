@@ -19,21 +19,22 @@ public class Aposta {
 	 * 
 	 * @param cenario
 	 *            Inteiro que representa o cenário que será apostado.
-	 * @param nomeApostador
+	 * @param nome
 	 *            Nome do apostador.
 	 * @param valor
 	 *            Valor a ser apostado.
 	 * @param previsao
 	 *            Previsão da aposta, se vai acontecer ou não.
 	 */
-	public Aposta(String nomeApostador, int valor, String previsao) {
-		this.nomeApostador = valida.nomeApostador(nomeApostador);
+	public Aposta(String nome, int valor, String previsao) {
+		valida = new Validador();
+		this.nomeApostador = valida.nomeApostador(nome);
 		this.valor = valida.valorAposta(valor);
 		this.previsao = valida.previsaoAposta(previsao);
 	}
 
 	// Métodos
-
+	
 	/**
 	 * Retorna o nome do apostador.
 	 * 
@@ -67,7 +68,8 @@ public class Aposta {
 	 */
 	@Override
 	public String toString() {
-		return nomeApostador + " - " + "R$" + (valor / 100) + ",00" + " - " + previsao;
+		double aux = (double) valor / 100.0;
+		return nomeApostador + " - " + "R$" + String.format("%1$,.2f", aux) + " - " + previsao;
 	}
 
 }
