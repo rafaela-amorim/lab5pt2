@@ -2,9 +2,13 @@ package lab5pt1;
 
 public class Facade {
 	
+	// Atributos 
+	
 	private Sistema sistema;
 
 	private boolean iniciado;
+	
+	// Métodos
 
 	/**
 	 * Construtor da classe, contém um booleano que indica se o sistema já foi

@@ -41,7 +41,7 @@ public class Sistema {
 	// Métodos
 
 	/**
-	 * verifica a existencia do cenário no sistema.
+	 * verifica a existencia do cenário no sistema, ou se o índice passado é válido.
 	 * 
 	 * @param index
 	 *            numeração do cenário.
