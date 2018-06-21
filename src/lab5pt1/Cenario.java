@@ -14,47 +14,25 @@ public class Cenario {
 
 	private Estado estado;
 
-	private int caixaFavoravel;
-
-	private int caixaContra;
-
 	private double porcentagem;
 
-	private int rateio;
-
-	private int caixaCenario;
+	private int caixaPerdedor;
 
 	private Validador valida;
 
 	// Construtor
 
-	/**
-	 * Construtor da classe, recebe apenas a descrição do cenário como parâmetro.
-	 * Inicializa o cenário como não finalizado, inicializa os ArrayLists que
-	 * armazenarão os apostadores favoráveis e contra o cenário. Além disso,
-	 * determina que as variáveis que guardam os caixas totais e o rateio das
-	 * apostas iniciam em 0 e o caixaCenario inicializa em uma flag (-1) indicando
-	 * que o cenário não foi fechado e ainda não há dinheiro separado para o caixa
-	 * do Sistema.
-	 * 
-	 * @param descricao
-	 *            É a descrição do cenário.
-	 * @param porcentagem
-	 *            A porcentagem para calcular o montante de dinheiro que vai pro
-	 *            caixa do sistema e o que vai para os ganhadores da aposta.
-	 */
+
 	public Cenario(String descricao, double porcentagem) {
 		valida = new Validador();
-		
+
 		this.descricao = valida.descricaoCenario(descricao);
 		this.porcentagem = valida.porcentagemCenario(porcentagem);
+		
 		estado = Estado.N_FINALIZADO;
 		favoravel = new ArrayList<>();
 		contra = new ArrayList<>();
-		caixaFavoravel = 0;
-		caixaContra = 0;
-		caixaCenario = -1;
-		rateio = 0;
+		caixaPerdedor = -1;
 	}
 
 	// Métodos
@@ -75,15 +53,12 @@ public class Cenario {
 	 */
 	public void cadastraAposta(String nome, int valor, String previsao) {
 		if (estado.toString().equals("Não finalizado")) {
-
 			Aposta aux = new Aposta(nome, valor, previsao);
 
 			if (previsao == "VAI ACONTECER") {
 				favoravel.add(aux);
-				caixaFavoravel += valor;
 			} else {
 				contra.add(aux);
-				caixaContra += valor;
 			}
 		}
 	}
@@ -123,17 +98,16 @@ public class Cenario {
 	 */
 	public void fecharAposta(boolean ocorreu) {
 		if (estado.toString().equals("Não finalizado")) {
+			int caixaAux;
 
 			if (ocorreu) {
+				caixaAux = caixaContra();
 				estado = Estado.OCORREU;
-				caixaCenario = (int) Math.floor(caixaContra * porcentagem);
-				rateio = caixaContra - caixaCenario;
-
 			} else {
+				caixaAux = caixaFavoravel();
 				estado = Estado.N_OCORREU;
-				caixaCenario = (int) Math.floor(caixaFavoravel * porcentagem);
-				rateio = caixaFavoravel - caixaCenario;
 			}
+			caixaPerdedor = caixaAux;
 		}
 	}
 
@@ -155,7 +129,10 @@ public class Cenario {
 	 * @return a quantia de dinheiro que irá para o sistema ou -1.
 	 */
 	public int getCaixaCenario() {
-		return caixaCenario;
+		if (estado.toString().equals("Não finalizado")) {
+			return (int) Math.floor(caixaPerdedor * porcentagem);
+		}
+		return -1;
 	}
 
 	/**
@@ -165,9 +142,23 @@ public class Cenario {
 	 * @return Caixa total do cenário.
 	 */
 	public int valorTotalDeAposta() {
-		return caixaFavoravel + caixaContra;
+		return caixaFavoravel() + caixaContra();
 	}
-
+	
+	/**
+	 * Calcula o valor a ser distribuido entre os vencedores.
+	 * 
+	 * @param caixaPerdedor
+	 *            o dinheiro das apostas perdedoras.
+	 * @return Retorna o valor para distribuir entre os ganhadores.
+	 */
+	public int calculaRateio() {
+		if (estado.toString().equals("Não finalizado")) {
+			return (int) Math.floor(caixaPerdedor * porcentagem);
+		}
+		return 0;
+	}
+	
 	/**
 	 * Retorna a descrição do cenário.
 	 * 
@@ -187,15 +178,6 @@ public class Cenario {
 	}
 
 	/**
-	 * Retorna o rateio das apostas.
-	 * 
-	 * @return rateio das apostas.
-	 */
-	public int getRateio() {
-		return rateio;
-	}
-
-	/**
 	 * Representação textual do cenário, contém a descrição e o estado atual do
 	 * cenário. A String se dá no seguinte formato: DESCRIÇÃO - ESTADO
 	 */
@@ -203,5 +185,34 @@ public class Cenario {
 	public String toString() {
 		return getDescricao() + " - " + getEstado();
 	}
+	
 
+	/**
+	 * Calcula o caixa total das apostas favoráveis.
+	 * 
+	 * @return Retorna o valor total de apostas favoráveis.
+	 */
+	private int caixaFavoravel() {
+		int caixa = 0;
+
+		for (Aposta ap : favoravel) {
+			caixa += ap.getValor();
+		}
+		return caixa;
+	}
+
+	/**
+	 * Calcula o caixa total das apostas contra.
+	 * 
+	 * @return Retorna o valor total de apostas contra.
+	 */
+	private int caixaContra() {
+		int caixa = 0;
+
+		for (Aposta ap : contra) {
+			caixa += ap.getValor();
+		}
+		return caixa;
+	}
+	
 }
