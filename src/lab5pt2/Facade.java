@@ -1,4 +1,4 @@
-package lab5pt1;
+package lab5pt2;
 
 public class Facade {
 	

@@ -5,7 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-import lab5pt1.Aposta;
+import lab5pt2.Aposta;
 
 public class ApostaTest {
 	

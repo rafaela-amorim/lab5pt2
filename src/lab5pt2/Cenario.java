@@ -1,4 +1,4 @@
-package lab5pt1;
+package lab5pt2;
 
 import java.util.ArrayList;
 
@@ -18,7 +18,7 @@ public class Cenario {
 
 	private int caixaPerdedor;
 
-	private Validador valida;
+	protected Validador valida;
 
 	// Construtor
 
@@ -129,7 +129,7 @@ public class Cenario {
 	 * @return a quantia de dinheiro que irá para o sistema ou -1.
 	 */
 	public int getCaixaCenario() {
-		if (estado.toString().equals("Não finalizado")) {
+		if (!(estado.toString().equals("Não finalizado"))) {
 			return (int) Math.floor(caixaPerdedor * porcentagem);
 		}
 		return -1;
@@ -153,8 +153,8 @@ public class Cenario {
 	 * @return Retorna o valor para distribuir entre os ganhadores.
 	 */
 	public int calculaRateio() {
-		if (estado.toString().equals("Não finalizado")) {
-			return (int) Math.floor(caixaPerdedor * porcentagem);
+		if (!(estado.toString().equals("Não finalizado"))) {
+			return caixaPerdedor - getCaixaCenario();
 		}
 		return 0;
 	}

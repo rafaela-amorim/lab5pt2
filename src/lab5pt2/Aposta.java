@@ -1,4 +1,4 @@
-package lab5pt1;
+package lab5pt2;
 
 public class Aposta {
 
@@ -9,7 +9,7 @@ public class Aposta {
 
 	private String previsao;
 	
-	private Validador valida;
+	protected Validador valida;
 
 	// Construtor
 

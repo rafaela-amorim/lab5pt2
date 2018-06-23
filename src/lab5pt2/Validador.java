@@ -1,7 +1,7 @@
-package lab5pt1;
+package lab5pt2;
 
 public class Validador {
-	
+
 	/**
 	 * Testa se o nome do Apostador, usado na classe Aposta, não é nulo nem um
 	 * argumento vazio.
@@ -113,4 +113,62 @@ public class Validador {
 		return taxa;
 	}
 
+	/**
+	 * Testa se o bonus do Cenário Bônus é válido, isto é, um número positivo.
+	 * 
+	 * @param bonus
+	 *            O bônus do cenário.
+	 * @return Retorna o próprio valor se for válido.
+	 */
+	public int bonusCenario(int bonus) {
+		if (bonus < 0) {
+			throw new IllegalArgumentException();
+		}
+		return bonus;
+	}
+
+	/**
+	 * Testa se o custo do seguro da Aposta Assegurada é válido, i.e., um número
+	 * positivo.
+	 * 
+	 * @param custoSeguro
+	 *            Custo do seguro da aposta
+	 * @return Retorna o próprio valor se for válido.
+	 */
+	public int custoAposta(int custoSeguro) {
+		if (custoSeguro < 0) {
+			throw new IllegalArgumentException();
+		}
+		return custoSeguro;
+	}
+
+	/**
+	 * Testa se o valor do seguro da Aposta Assegurada é válido, i.e., um número
+	 * positivo.
+	 * 
+	 * @param valorSeguro
+	 *            Valor do seguro da aposta
+	 * @return Retorna o próprio valor se for válido.
+	 */
+	public int valorSeguroAposta(int valorSeguro) {
+		if (valorSeguro < 0) {
+			throw new IllegalArgumentException();
+		}
+		return valorSeguro;
+	}
+
+	/**
+	 * Testa se a taxa do seguro da Aposta Assegurada é válida, i.e., um número
+	 * positivo.
+	 * 
+	 * @param taxa
+	 *            Taxa do seguro da Aposta
+	 * @return Retorna o próprio valor se for válido.
+	 */
+	public double taxaSeguroAposta(double taxa) {
+		if (taxa < 0) {
+			throw new IllegalArgumentException();
+		}
+		return taxa;
+	}
 }

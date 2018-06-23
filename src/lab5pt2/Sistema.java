@@ -1,4 +1,4 @@
-package lab5pt1;
+package lab5pt2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -181,7 +181,7 @@ public class Sistema {
 	 */
 	public int getTotalRateioCenario(int cenario) {
 		verificaCenario(cenario);
-		return cenarios.get(cenario).getRateio();
+		return cenarios.get(cenario).calculaRateio();
 	}
 
 	/**
