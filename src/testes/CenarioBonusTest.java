@@ -19,7 +19,7 @@ public class CenarioBonusTest {
 	public void testCalculaRateio() {
 		cb.calculaRateio();
 	}
-	
+
 	@Test
 	public void testCalculaRateioCenFechado() {
 		cb.cadastraAposta("rafa", 300, "VAI ACONTECER");

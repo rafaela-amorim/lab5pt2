@@ -19,7 +19,7 @@ public class Validador {
 		}
 		return nomeAp;
 	}
-
+	
 	/**
 	 * Testa a previsão da classe Aposta, se não é nem nula nem argumento vazio.
 	 * 
@@ -143,7 +143,7 @@ public class Validador {
 	 */
 	public int bonusCenario(int bonus) {
 		if (bonus <= 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Bonus invalido");
 		}
 		return bonus;
 	}

@@ -8,7 +8,7 @@ import org.junit.Test;
 import lab5pt2.Sistema;
 
 public class SistemaTest {
-
+		
 	Sistema sis;
 	@Before
 	public void inicia() {

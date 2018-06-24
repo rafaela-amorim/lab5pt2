@@ -1,6 +1,5 @@
 package lab5pt2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Cenario {
@@ -34,17 +33,23 @@ public class Cenario {
 	 */
 	public Cenario(String descricao, double porcentagem) {
 		valida = new Validador();
+		
+		try {
+			this.descricao = valida.descricaoCenario(descricao);
+			this.porcentagem = valida.taxaSistema(porcentagem);
 
-		this.descricao = valida.descricaoCenario(descricao);
-		this.porcentagem = valida.taxaSistema(porcentagem);
-
-		estado = Estado.N_FINALIZADO;
-		favoravel = new HashMap<>();
-		contra = new HashMap<>();
-		index = 1;
-		caixaPerdedor = -1;
+			estado = Estado.N_FINALIZADO;
+			favoravel = new HashMap<>();
+			contra = new HashMap<>();
+			index = 1;
+			caixaPerdedor = -1;
+		} catch (NullPointerException n) {
+			throw new NullPointerException("Erro no cadastro de cenario: " + n);
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i);
+		}
 	}
-
+	
 	// Métodos
 
 	/**
@@ -72,7 +77,7 @@ public class Cenario {
 			contra.put(index++, aux);
 		}
 	}
-
+	
 	/**
 	 * Método que cria uma String que armazena uma representação textual de todos
 	 * que apostaram nesse cenário, em formato de lista.
@@ -139,8 +144,13 @@ public class Cenario {
 	 * @return a quantia de dinheiro que irá para o sistema.
 	 */
 	public int getCaixaCenario() {
-		valida.cenarioAberto(getEstado());
-		return (int) Math.floor(caixaPerdedor * porcentagem);
+		try {
+			valida.cenarioAberto(getEstado());
+			return (int) Math.floor(caixaPerdedor * porcentagem);
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro na consulta do caixa do cenario: " + e);
+		}
+		
 	}
 
 	/**
@@ -162,8 +172,12 @@ public class Cenario {
 	 * @return Retorna o valor para distribuir entre os ganhadores, ou 0.
 	 */
 	public int calculaRateio() {
-		valida.cenarioAberto(getEstado());
-		return caixaPerdedor - getCaixaCenario();
+		try {
+			valida.cenarioAberto(getEstado());
+			return caixaPerdedor - getCaixaCenario();
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro na consulta do total de rateio do cenario: " + e);
+		}
 	}
 	
 	/**

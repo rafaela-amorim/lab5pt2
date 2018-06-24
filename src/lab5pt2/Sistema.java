@@ -62,9 +62,15 @@ public class Sistema {
 	 * @return O índice do cenário cadastrado.
 	 */
 	public int cadastraCenario(String descricao) {
-		Cenario aux = new Cenario(descricao, taxa);
-		cenarios.put(indiceCenarios++, aux);
-		return indiceCenarios;
+		try {
+			Cenario aux = new Cenario(descricao, taxa);
+			cenarios.put(indiceCenarios++, aux);
+			return indiceCenarios;
+		} catch (NullPointerException n) {
+			throw n;
+		} catch (IllegalArgumentException i) {
+			throw i;
+		}
 	}
 
 	/**
@@ -81,8 +87,16 @@ public class Sistema {
 	 *            Previsão da aposta.
 	 */
 	public void cadastraAposta(int cenario, String nome, int valor, String previsao) {
-		verificaCenario(cenario);
-		cenarios.get(cenario).cadastraAposta(nome, valor, previsao);
+		try {
+			verificaCenario(cenario);
+			cenarios.get(cenario).cadastraAposta(nome, valor, previsao);
+		} catch (IllegalAccessError a) {
+			throw new IllegalAccessError("Erro no cadastro de aposta: " + a);
+		} catch (NullPointerException n) {
+			throw n;
+		} catch (IllegalArgumentException i) {
+			throw i;
+		}
 	}
 
 	/**
@@ -94,8 +108,12 @@ public class Sistema {
 	 * @return Representação textual do cenário.
 	 */
 	public String exibirCenario(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).toString();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).toString();
+		} catch (IllegalAccessError a) {
+			throw new IllegalAccessError("Erro ao exibir cenario: " + a);
+		}
 	}
 
 	/**
@@ -122,8 +140,12 @@ public class Sistema {
 	 * @return Retorna o valor total que foi apostado nesse cenário.
 	 */
 	public int valorTotalDeApostas(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).valorTotalDeAposta();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).valorTotalDeAposta();
+		} catch (IllegalAccessError a) {
+			throw new IllegalAccessError("Erro na consulta do valor total de apostas: " + a);
+		}
 	}
 
 	/**
@@ -134,8 +156,12 @@ public class Sistema {
 	 * @return A quantidade de apostas que foram feitas nesse cenário.
 	 */
 	public int totalDeApostas(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).totalDeApostas();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).totalDeApostas();
+		} catch (IllegalAccessError a) {
+			throw new IllegalAccessError("Erro na consulta do total de apostas: " + a);
+		}
 	}
 
 	/**
@@ -146,8 +172,12 @@ public class Sistema {
 	 * @return String em forma de lista com todas as apostas do cenário.
 	 */
 	public String exibeApostas(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).exibeApostas();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).exibeApostas();
+		} catch (IllegalAccessError a) {
+			throw new IllegalAccessError("Erro ao exibir apostas: " + a);
+		}
 	}
 
 	/**
@@ -160,13 +190,17 @@ public class Sistema {
 	 *            Boolean que indica se o cenário ocorreu ou não.
 	 */
 	public void fecharAposta(int cenario, boolean ocorreu) {
-		verificaCenario(cenario);
-		cenarios.get(cenario).fecharAposta(ocorreu);
+		try {
+			verificaCenario(cenario);
+			cenarios.get(cenario).fecharAposta(ocorreu);
 
-		int caixaCenario = cenarios.get(cenario).getCaixaCenario();
+			int caixaCenario = cenarios.get(cenario).getCaixaCenario();
 
-		if (caixaCenario != -1) {
-			caixa += caixaCenario;
+			if (caixaCenario != -1) {
+				caixa += caixaCenario;
+			}
+		} catch (IllegalAccessError a) {
+			throw new IllegalAccessError("Erro ao fechar aposta: " + a);
 		}
 	}
 
@@ -179,8 +213,12 @@ public class Sistema {
 	 * @return Retorna o valor a ser distribuído entre os ganhadores.
 	 */
 	public int getTotalRateioCenario(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).calculaRateio();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).calculaRateio();
+		} catch (IllegalAccessError a) {
+			throw a;
+		}
 	}
 
 	/**
@@ -201,7 +239,11 @@ public class Sistema {
 	 * @return O dinheiro que irá para o Sistema ou -1.
 	 */
 	public int getCaixaCenario(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).getCaixaCenario();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).getCaixaCenario();
+		} catch (IllegalAccessError e) {
+			throw e;
+		}
 	}
 }

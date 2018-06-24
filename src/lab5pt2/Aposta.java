@@ -28,9 +28,16 @@ public class Aposta {
 	 */
 	public Aposta(String nome, int valor, String previsao) {
 		valida = new Validador();
-		this.nomeApostador = valida.nomeApostador(nome);
-		this.valor = valida.valorAposta(valor);
-		this.previsao = valida.previsaoAposta(previsao);
+		 
+		try {
+			this.nomeApostador = valida.nomeApostador(nome);
+			this.valor = valida.valorAposta(valor);
+			this.previsao = valida.previsaoAposta(previsao);
+		} catch (NullPointerException n) {
+			throw new NullPointerException("Erro no cadastro de aposta: " + n);
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro no cadastro de aposta: " + i);
+		}
 	}
 
 	// Métodos
