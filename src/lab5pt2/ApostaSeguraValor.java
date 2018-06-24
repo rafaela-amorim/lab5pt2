@@ -22,7 +22,7 @@ public class ApostaSeguraValor extends ApostaAssegurada {
 	 *            Custo do seguro
 	 */
 	public ApostaSeguraValor(String apostador, int valor, String previsao, int valorSeguro, int custoSeguro) {
-		super(apostador, valorSeguro, previsao, custoSeguro);
+		super(apostador, valor, previsao, custoSeguro);
 		this.valorSeguro = super.valida.valorSeguroAposta(valorSeguro);
 	}
 
@@ -35,11 +35,11 @@ public class ApostaSeguraValor extends ApostaAssegurada {
 
 	/**
 	 * Representação textual da aposta assegurada por valor, se apresenta no
-	 * seguinte formato: NOME - VALOR - PREVISÃO - ASSEGURADA (VALOR) - VALOR DO
-	 * SEGURO
+	 * seguinte formato: NOME - VALOR - PREVISÃO - ASSEGURADA (VALOR) - VALOR DO SEGURO
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "(VALOR) - R$" + String.format("%1$,.2f", valorSeguro);
+		double aux = (double) valorSeguro / 100.0;
+		return super.toString() + "(VALOR) - R$" + String.format("%1$,.2f", aux);
 	}
 }

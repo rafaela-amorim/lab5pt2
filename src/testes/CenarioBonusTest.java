@@ -8,16 +8,16 @@ import org.junit.Test;
 import lab5pt2.CenarioBonus;
 
 public class CenarioBonusTest {
-	
+
 	CenarioBonus cb;
 	@Before
 	public void inicia() {
 		cb = new CenarioBonus("Meus dedos vão cair antes de terminar o semestre", 0.1, 2000);
 	}
 	
-	@Test
+	@Test(expected=IllegalAccessError.class)
 	public void testCalculaRateio() {
-		assertEquals(-1, cb.calculaRateio());
+		cb.calculaRateio();
 	}
 	
 	@Test

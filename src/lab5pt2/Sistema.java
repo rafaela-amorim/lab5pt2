@@ -46,10 +46,9 @@ public class Sistema {
 	 * @param index
 	 *            numeração do cenário.
 	 */
-	private void verificaCenario(int index) {
-		if (index < 1) {
-			throw new IllegalAccessError("Cenario invalido");
-		}
+	private void verificaCenario(int index) throws IllegalAccessError {
+		valida.indexCenarioSistema(index);
+		
 		if (!(cenarios.containsKey(index))) {
 			throw new IllegalAccessError("Cenario nao cadastrado");
 		}

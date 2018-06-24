@@ -12,10 +12,10 @@ public class Validador {
 	 */
 	public String nomeApostador(String nomeAp) {
 		if (nomeAp == null) {
-			throw new NullPointerException();
+			throw new NullPointerException("Apostador nao pode ser vazio ou nulo");
 		}
 		if (nomeAp.trim().length() == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Apostador nao pode ser vazio ou nulo");
 		}
 		return nomeAp;
 	}
@@ -29,10 +29,13 @@ public class Validador {
 	 */
 	public String previsaoAposta(String previsao) {
 		if (previsao == null) {
-			throw new NullPointerException();
+			throw new NullPointerException("Previsao nao pode ser vazia ou nula");
 		}
 		if (previsao.trim().length() == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Previsao nao pode ser vazia ou nula");
+		}
+		if (!(previsao.equals("N VAI ACONTECER") || previsao.equals("VAI ACONTECER"))) {
+			throw new IllegalArgumentException("Previsao invalida");
 		}
 		return previsao;
 	}
@@ -45,8 +48,8 @@ public class Validador {
 	 * @return Retorna o próprio valor se for válido.
 	 */
 	public int valorAposta(int valor) {
-		if (valor < 0) {
-			throw new IllegalArgumentException();
+		if (valor <= 0) {
+			throw new IllegalArgumentException("Valor nao pode ser menor ou igual a zero");
 		}
 		return valor;
 	}
@@ -60,27 +63,45 @@ public class Validador {
 	 */
 	public String descricaoCenario(String descricao) {
 		if (descricao == null) {
-			throw new NullPointerException();
+			throw new NullPointerException("Descricao nao pode ser nula");
 		}
 		if (descricao.trim().length() == 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Descricao nao pode ser vazia");
 		}
 		return descricao;
 	}
 
 	/**
-	 * Testa se a taxa do caixa é um valor válido, no caso, um valor positivo.
+	 * Verifica se o número do cenário é válido.
 	 * 
-	 * @param porcentagem
-	 *            A porcentagem usada para calcular o montante do sistema em cima do
-	 *            valor total das apostas perdedoras.
+	 * @param index
+	 *            número identificador do cenário.
 	 * @return Retorna o próprio valor se for válido.
 	 */
-	public double porcentagemCenario(double porcentagem) {
-		if (porcentagem < 0) {
-			throw new IllegalArgumentException();
+	public int indexCenarioSistema(int index) {
+		if (index < 1) {
+			throw new IllegalAccessError("Cenario invalido");
 		}
-		return porcentagem;
+		return index;
+	}
+
+	/**
+	 * Verifica se o cenário ainda está aberto para aplciações que necessitam do
+	 * cenário fechado para o bom funcionamento.
+	 * 
+	 * @param estado
+	 *            Estado do cenário.
+	 */
+	public void cenarioAberto(String estado) {
+		if (estado.equals("Não finalizado")) {
+			throw new IllegalAccessError("Cenario ainda esta aberto");
+		}
+	}
+	
+	public void cenarioFechado(String estado) {
+		if (!(estado.equals("Não finalizado"))) {
+			throw new IllegalAccessError("Cenario ja foi fechado");
+		}
 	}
 
 	/**
@@ -93,7 +114,7 @@ public class Validador {
 	 */
 	public int caixaSistema(int caixa) {
 		if (caixa < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Caixa nao pode ser inferior a 0");
 		}
 		return caixa;
 	}
@@ -108,7 +129,7 @@ public class Validador {
 	 */
 	public double taxaSistema(double taxa) {
 		if (taxa < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Taxa nao pode ser inferior a 0");
 		}
 		return taxa;
 	}
@@ -121,7 +142,7 @@ public class Validador {
 	 * @return Retorna o próprio valor se for válido.
 	 */
 	public int bonusCenario(int bonus) {
-		if (bonus < 0) {
+		if (bonus <= 0) {
 			throw new IllegalArgumentException();
 		}
 		return bonus;

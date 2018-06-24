@@ -8,7 +8,7 @@ import org.junit.Test;
 import lab5pt2.Sistema;
 
 public class SistemaTest {
-	
+
 	Sistema sis;
 	@Before
 	public void inicia() {
@@ -42,12 +42,12 @@ public class SistemaTest {
 	
 	@Test(expected=IllegalAccessError.class)
 	public void cenarioNaoEXiste() {
-		sis.cadastraAposta(80, "mnsa", 00, "ngm liga");
+		sis.cadastraAposta(80, "girls wanna have some fun", 200, "we like to party");
 	}
 	
 	@Test(expected=IllegalAccessError.class)
 	public void cenarioNaoPode() {
-		sis.cadastraAposta(0, "mnsa", 00, "ngm liga");
+		sis.cadastraAposta(0, "we go dumb dumb dumb", 202, "what you want want want");
 	}
 	
 	@Test
@@ -78,18 +78,18 @@ public class SistemaTest {
 	
 	@Test
 	public void testValorTotalDeApostas() {
-		sis.cadastraCenario("Meu pescoço dói e meu braço e dedos tbm");
+		sis.cadastraCenario("whatta bom bom whatta bom bom let's go");
 		sis.cadastraAposta(1, "rafa", 500, "VAI ACONTECER");
-		sis.cadastraAposta(1, "minha mão", 0, "VAI ACONTECER");
+		sis.cadastraAposta(1, "minha mão", 202, "VAI ACONTECER");
 		
-		assertEquals(500, sis.valorTotalDeApostas(1));
+		assertEquals(702, sis.valorTotalDeApostas(1));
 	}
 	
 	@Test
 	public void testTotalDeApostas() {
 		sis.cadastraCenario("Meu pescoço dói e meu braço e dedos tbm");
 		sis.cadastraAposta(1, "rafa", 500, "VAI ACONTECER");
-		sis.cadastraAposta(1, "minha mão", 0, "VAI ACONTECER");
+		sis.cadastraAposta(1, "minha mão", 20, "VAI ACONTECER");
 		
 		assertEquals(2, sis.totalDeApostas(1));
 	}
@@ -98,17 +98,17 @@ public class SistemaTest {
 	public void testExibeApostas() {
 		sis.cadastraCenario("Meu pescoço dói e meu braço e dedos tbm");
 		sis.cadastraAposta(1, "rafa", 500, "VAI ACONTECER");
-		sis.cadastraAposta(1, "minha mão", 0, "VAI ACONTECER");
+		sis.cadastraAposta(1, "minha mão", 200, "VAI ACONTECER");
 		
 		assertEquals("rafa - R$5,00 - VAI ACONTECER\n" + 
-					 "minha mão - R$0,00 - VAI ACONTECER", sis.exibeApostas(1));
+					 "minha mão - R$2,00 - VAI ACONTECER", sis.exibeApostas(1));
 	}
 
 	@Test
 	public void testFecharAposta() {
 		sis.cadastraCenario("Meu pescoço dói e meu braço e dedos tbm");
 		sis.cadastraAposta(1, "rafa", 500, "VAI ACONTECER");
-		sis.cadastraAposta(1, "minha mão", 0, "VAI ACONTECER");
+		sis.cadastraAposta(1, "minha mão", 20, "VAI ACONTECER");
 		
 		sis.fecharAposta(1, true);
 	}
@@ -117,7 +117,7 @@ public class SistemaTest {
 	public void testGetTotalRateioCenario() {
 		sis.cadastraCenario("Meu pescoço dói e meu braço e dedos tbm");
 		sis.cadastraAposta(1, "rafa", 500, "VAI ACONTECER");
-		sis.cadastraAposta(1, "minha mão", 0, "VAI ACONTECER");
+		sis.cadastraAposta(1, "minha mão", 20, "VAI ACONTECER");
 		
 		sis.fecharAposta(1, true);
 		
@@ -133,7 +133,7 @@ public class SistemaTest {
 	public void testGetCaixaCenario() {
 		sis.cadastraCenario("Meu pescoço dói e meu braço e dedos tbm");
 		sis.cadastraAposta(1, "rafa", 500, "N VAI ACONTECER");
-		sis.cadastraAposta(1, "minha mão", 0, "VAI ACONTECER");
+		sis.cadastraAposta(1, "minha mão", 20, "VAI ACONTECER");
 		
 		sis.fecharAposta(1, true);
 		

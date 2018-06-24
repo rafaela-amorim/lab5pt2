@@ -1,37 +1,47 @@
 package lab5pt2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Cenario {
 
 	// Atributos
 
-	private ArrayList<Aposta> favoravel;
-
-	private ArrayList<Aposta> contra;
-
+	private HashMap<Integer, Aposta> favoravel;
+	private HashMap<Integer, Aposta> contra;
 	private String descricao;
-
 	private Estado estado;
-
 	private double porcentagem;
-
 	private int caixaPerdedor;
-
+	private int index;
 	protected Validador valida;
 
 	// Construtor
 
-
+	/**
+	 * Construtor da classe, recebe a descrição do cenário e a porcentagem para o
+	 * cálculo do montante destinado ao caixa do Sistema quando as apostas forem
+	 * encerradas.
+	 * 
+	 * O estado do cenário inicia em Não finalizado, o caixa perdedor inicia em -1,
+	 * o index, ou índice, inicia em 1 e o validador e os dois hashmaps são
+	 * inicializados
+	 * 
+	 * @param descricao
+	 *            Descrição do cenário
+	 * @param porcentagem
+	 *            taxa para calcular o dinheiro para o caixa do Sistema
+	 */
 	public Cenario(String descricao, double porcentagem) {
 		valida = new Validador();
 
 		this.descricao = valida.descricaoCenario(descricao);
-		this.porcentagem = valida.porcentagemCenario(porcentagem);
-		
+		this.porcentagem = valida.taxaSistema(porcentagem);
+
 		estado = Estado.N_FINALIZADO;
-		favoravel = new ArrayList<>();
-		contra = new ArrayList<>();
+		favoravel = new HashMap<>();
+		contra = new HashMap<>();
+		index = 1;
 		caixaPerdedor = -1;
 	}
 
@@ -52,14 +62,14 @@ public class Cenario {
 	 *            Previsão da Aposta.
 	 */
 	public void cadastraAposta(String nome, int valor, String previsao) {
-		if (estado.toString().equals("Não finalizado")) {
-			Aposta aux = new Aposta(nome, valor, previsao);
+		valida.cenarioFechado(getEstado());
+		
+		Aposta aux = new Aposta(nome, valor, previsao);
 
-			if (previsao == "VAI ACONTECER") {
-				favoravel.add(aux);
-			} else {
-				contra.add(aux);
-			}
+		if (previsao == "VAI ACONTECER") {
+			favoravel.put(index++, aux);
+		} else {
+			contra.put(index++, aux);
 		}
 	}
 
@@ -72,13 +82,13 @@ public class Cenario {
 	public String exibeApostas() {
 		String lista = "";
 
-		for (Aposta item : favoravel) {
+		for (Aposta item : favoravel.values()) {
 			lista += item.toString() + System.lineSeparator();
 		}
 
 		lista.trim();
 
-		for (Aposta item : contra) {
+		for (Aposta item : contra.values()) {
 			lista += item.toString() + System.lineSeparator();
 		}
 
@@ -97,42 +107,40 @@ public class Cenario {
 	 *         já tivesse sido fechado.
 	 */
 	public void fecharAposta(boolean ocorreu) {
-		if (estado.toString().equals("Não finalizado")) {
-			int caixaAux;
+		valida.cenarioFechado(getEstado());
+		
+		int caixaAux;
 
-			if (ocorreu) {
-				caixaAux = caixaContra();
-				estado = Estado.OCORREU;
-			} else {
-				caixaAux = caixaFavoravel();
-				estado = Estado.N_OCORREU;
-			}
-			caixaPerdedor = caixaAux;
+		if (ocorreu) {
+			caixaAux = caixaContra();
+			estado = Estado.OCORREU;
+		} else {
+			caixaAux = caixaFavoravel();
+			estado = Estado.N_OCORREU;
 		}
+		caixaPerdedor = caixaAux;
 	}
 
 	/**
-	 * Método que calcula o número total de apostas, somando o tamanho dos dois
-	 * ArrayList que armazenam todas as apostas.
+	 * Método que retorna a quantidade total de apostas ao retornar o número da
+	 * ultima aposta adicionada, já que seus índices são números crescentes
+	 * ordenados a partir do 1.
 	 * 
 	 * @return Quantidade total de apostas.
 	 */
 	public int totalDeApostas() {
-		return favoravel.size() + contra.size();
+		return index - 1;
 	}
 
 	/**
 	 * Método que retorna a quantidade de dinheiro que irá para o caixa do Sistema
-	 * quando as apostas forem encerradas, antes disso o caixaCenario é -1 indicando
-	 * que a quantia do Sistema ainda não foi determinada.
+	 * quando as apostas forem encerradas.
 	 * 
-	 * @return a quantia de dinheiro que irá para o sistema ou -1.
+	 * @return a quantia de dinheiro que irá para o sistema.
 	 */
 	public int getCaixaCenario() {
-		if (!(estado.toString().equals("Não finalizado"))) {
-			return (int) Math.floor(caixaPerdedor * porcentagem);
-		}
-		return -1;
+		valida.cenarioAberto(getEstado());
+		return (int) Math.floor(caixaPerdedor * porcentagem);
 	}
 
 	/**
@@ -144,21 +152,35 @@ public class Cenario {
 	public int valorTotalDeAposta() {
 		return caixaFavoravel() + caixaContra();
 	}
-	
+
 	/**
-	 * Calcula o valor a ser distribuido entre os vencedores.
+	 * Calcula o valor a ser distribuido entre os vencedores se as apostas tiverem
+	 * sido encerradas.
 	 * 
 	 * @param caixaPerdedor
 	 *            o dinheiro das apostas perdedoras.
-	 * @return Retorna o valor para distribuir entre os ganhadores.
+	 * @return Retorna o valor para distribuir entre os ganhadores, ou 0.
 	 */
 	public int calculaRateio() {
-		if (!(estado.toString().equals("Não finalizado"))) {
-			return caixaPerdedor - getCaixaCenario();
-		}
-		return 0;
+		valida.cenarioAberto(getEstado());
+		return caixaPerdedor - getCaixaCenario();
 	}
 	
+	/**
+	 * 
+	 * @param apostaSegura
+	 * @param taxa
+	 * @return
+	 */
+	public int alterarSeguroTaxa(int indiceAposta, double taxa) {
+		if (favoravel.containsKey(indiceAposta)) {
+			if (favoravel.get(indiceAposta) instanceof ApostaSeguraValor) {
+				
+			}
+		}
+		return -1;
+	}
+
 	/**
 	 * Retorna a descrição do cenário.
 	 * 
@@ -185,7 +207,6 @@ public class Cenario {
 	public String toString() {
 		return getDescricao() + " - " + getEstado();
 	}
-	
 
 	/**
 	 * Calcula o caixa total das apostas favoráveis.
@@ -195,7 +216,7 @@ public class Cenario {
 	private int caixaFavoravel() {
 		int caixa = 0;
 
-		for (Aposta ap : favoravel) {
+		for (Aposta ap : favoravel.values()) {
 			caixa += ap.getValor();
 		}
 		return caixa;
@@ -209,10 +230,10 @@ public class Cenario {
 	private int caixaContra() {
 		int caixa = 0;
 
-		for (Aposta ap : contra) {
+		for (Aposta ap : contra.values()) {
 			caixa += ap.getValor();
 		}
 		return caixa;
 	}
-	
+
 }

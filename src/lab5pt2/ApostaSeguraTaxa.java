@@ -38,6 +38,6 @@ public class ApostaSeguraTaxa extends ApostaAssegurada {
 	 */
 	@Override
 	public String toString() {
-		return super.toString() + "(TAXA) - " + taxaSeguro / 100 + "%";
+		return super.toString() + "(TAXA) - " + String.format("%2.2f", taxaSeguro) + "%";
 	}
 }

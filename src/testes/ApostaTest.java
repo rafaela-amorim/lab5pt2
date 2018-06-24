@@ -15,7 +15,7 @@ public class ApostaTest {
 	public void inicia() {
 		ap = new Aposta("rafa", 250, "VAI ACONTECER");
 	}
-	
+
 	@Test (expected=NullPointerException.class)
 	public void nullAposta() {
 		Aposta erro = new Aposta(null, 20, "nsei");
