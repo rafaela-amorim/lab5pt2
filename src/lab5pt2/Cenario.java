@@ -33,7 +33,7 @@ public class Cenario {
 	 */
 	public Cenario(String descricao, double porcentagem) {
 		valida = new Validador();
-		
+
 		try {
 			this.descricao = valida.descricaoCenario(descricao);
 			this.porcentagem = valida.taxaSistema(porcentagem);
@@ -49,35 +49,84 @@ public class Cenario {
 			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i);
 		}
 	}
-	
+
 	// Métodos
 
 	/**
-	 * Verifica se o cenário ainda está aberto para apostas, se não estiver, nada
-	 * acontece. Se estiver, cadastra a aposta de acordo com a previsão do
-	 * apostador, se for favorável, a aposta é adicionada ao ArrayList de favoráveis
-	 * e o valor é somado ao caixa de favoráveis, análogamente, há um ArrayList e um
-	 * caixa para apostas contra o cenário.
+	 * Método auxiliar que cadastra uma nova aposta em seu respectivo HashMap,
+	 * dependendo da previsão da aposta.
 	 * 
-	 * @param nome
-	 *            Nome do apostador.
-	 * @param valor
-	 *            Valor da Aposta.
-	 * @param previsao
-	 *            Previsão da Aposta.
+	 * @param aposta
+	 *            A Aposta que será cadastrada no Cenário;
+	 * @return Retorna o índice da aposta.
 	 */
-	public void cadastraAposta(String nome, int valor, String previsao) {
+	private int cadastraApostaAux(Aposta aposta) {
 		valida.cenarioFechado(getEstado());
-		
-		Aposta aux = new Aposta(nome, valor, previsao);
 
-		if (previsao == "VAI ACONTECER") {
-			favoravel.put(index++, aux);
+		if (aposta.getPrevisao().equals("VAI ACONTECER")) {
+			favoravel.put(index++, aposta);
 		} else {
-			contra.put(index++, aux);
+			contra.put(index++, aposta);
 		}
+		return index;
+	}
+
+	/**
+	 * Cadastra aposta comum sem seguro, recebe nome do apostador, valor da aposta e
+	 * a previsão da aposta.
+	 * 
+	 * @param apostador
+	 *            Nome do apostador
+	 * @param valor
+	 *            Valor da aposta
+	 * @param previsao
+	 *            Previsão da aposta
+	 */
+	public void cadastrarAposta(String apostador, int valor, String previsao) {
+		Aposta aposta = new Aposta(apostador, valor, previsao);
+		cadastraApostaAux(aposta);
+	}
+
+	/**
+	 * Cadastra Aposta assegurada por valor, recebe nome do apostador, valor da
+	 * aposta, previsão e o valor do seguro, retorna o número identificador da
+	 * aposta.
+	 * 
+	 * @param apostador
+	 *            Nome do apostador
+	 * @param valor
+	 *            Valor da aposta
+	 * @param previsao
+	 *            Previsão da aposta
+	 * @param valorSeguro
+	 *            Valor do seguro da Aposta.
+	 * @return Número de identificação da aposta
+	 */
+	public int cadastrarApostaSeguraValor(String apostador, int valor, String previsao, int valorSeguro) {
+		Aposta aposta = new Aposta(apostador, valor, previsao, valorSeguro);
+		return cadastraApostaAux(aposta);
 	}
 	
+	/**
+	 * Cadastra Aposta assegurada por taxa, recebe nome do apostador, valor da
+	 * aposta, previsão e a taxa do seguro, retorna o número identificador da
+	 * aposta.
+	 * 
+	 * @param apostador
+	 *            Nome do apostador
+	 * @param valor
+	 *            Valor da aposta
+	 * @param previsao
+	 *            Previsão da aposta
+	 * @param taxaSeguro
+	 *            Taxa do seguro da Aposta.
+	 * @return Número de identificação da aposta
+	 */
+	public int cadastrarApostaSeguraTaxa(String apostador, int valor, String previsao, double taxaSeguro) {
+		Aposta aposta = new Aposta(apostador, valor, previsao, taxaSeguro);
+		return cadastraApostaAux(aposta);
+	}
+
 	/**
 	 * Método que cria uma String que armazena uma representação textual de todos
 	 * que apostaram nesse cenário, em formato de lista.
@@ -113,7 +162,7 @@ public class Cenario {
 	 */
 	public void fecharAposta(boolean ocorreu) {
 		valida.cenarioFechado(getEstado());
-		
+
 		int caixaAux;
 
 		if (ocorreu) {
@@ -150,7 +199,7 @@ public class Cenario {
 		} catch (IllegalAccessError e) {
 			throw new IllegalAccessError("Erro na consulta do caixa do cenario: " + e);
 		}
-		
+
 	}
 
 	/**
@@ -178,21 +227,6 @@ public class Cenario {
 		} catch (IllegalAccessError e) {
 			throw new IllegalAccessError("Erro na consulta do total de rateio do cenario: " + e);
 		}
-	}
-	
-	/**
-	 * 
-	 * @param apostaSegura
-	 * @param taxa
-	 * @return
-	 */
-	public int alterarSeguroTaxa(int indiceAposta, double taxa) {
-		if (favoravel.containsKey(indiceAposta)) {
-			if (favoravel.get(indiceAposta) instanceof ApostaSeguraValor) {
-				
-			}
-		}
-		return -1;
 	}
 
 	/**

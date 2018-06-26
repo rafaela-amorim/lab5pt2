@@ -61,16 +61,16 @@ public class Sistema {
 	 *            Descrição do cenário.
 	 * @return O índice do cenário cadastrado.
 	 */
-	public int cadastraCenario(String descricao) {
-		try {
-			Cenario aux = new Cenario(descricao, taxa);
-			cenarios.put(indiceCenarios++, aux);
-			return indiceCenarios;
-		} catch (NullPointerException n) {
-			throw n;
-		} catch (IllegalArgumentException i) {
-			throw i;
-		}
+	public int cadastrarCenario(String descricao) {
+		Cenario aux = new Cenario(descricao, taxa);
+		cenarios.put(indiceCenarios++, aux);
+		return indiceCenarios;
+	}
+	
+	public int cadastrarCenario(String descricao, int bonus) {
+		Cenario aux = new CenarioBonus(descricao, taxa, bonus);
+		cenarios.put(indiceCenarios++, aux);
+		return indiceCenarios;
 	}
 
 	/**
@@ -86,17 +86,24 @@ public class Sistema {
 	 * @param previsao
 	 *            Previsão da aposta.
 	 */
-	public void cadastraAposta(int cenario, String nome, int valor, String previsao) {
+	public void cadastrarAposta(int cenario, String nome, int valor, String previsao) {
 		try {
 			verificaCenario(cenario);
 			cenarios.get(cenario).cadastraAposta(nome, valor, previsao);
 		} catch (IllegalAccessError a) {
 			throw new IllegalAccessError("Erro no cadastro de aposta: " + a);
-		} catch (NullPointerException n) {
-			throw n;
-		} catch (IllegalArgumentException i) {
-			throw i;
 		}
+	}
+	
+	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorSeguro, int custo) {
+		try {
+			verificaCenario(cenario);
+			cenarios.get(cenario).cadastrarApostaSeguraValor(apostador, valorSeguro, previsao, valorSeguro);
+			caixa += custo;
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("");
+		}
+		return // indice aposta
 	}
 
 	/**

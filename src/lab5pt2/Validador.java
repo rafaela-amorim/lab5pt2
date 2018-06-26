@@ -149,21 +149,6 @@ public class Validador {
 	}
 
 	/**
-	 * Testa se o custo do seguro da Aposta Assegurada é válido, i.e., um número
-	 * positivo.
-	 * 
-	 * @param custoSeguro
-	 *            Custo do seguro da aposta
-	 * @return Retorna o próprio valor se for válido.
-	 */
-	public int custoAposta(int custoSeguro) {
-		if (custoSeguro < 0) {
-			throw new IllegalArgumentException();
-		}
-		return custoSeguro;
-	}
-
-	/**
 	 * Testa se o valor do seguro da Aposta Assegurada é válido, i.e., um número
 	 * positivo.
 	 * 
@@ -173,7 +158,7 @@ public class Validador {
 	 */
 	public int valorSeguroAposta(int valorSeguro) {
 		if (valorSeguro < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Valor do seguro inválido");
 		}
 		return valorSeguro;
 	}
@@ -188,8 +173,9 @@ public class Validador {
 	 */
 	public double taxaSeguroAposta(double taxa) {
 		if (taxa < 0) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Taxa do seguro inválida");
 		}
 		return taxa;
 	}
+	
 }

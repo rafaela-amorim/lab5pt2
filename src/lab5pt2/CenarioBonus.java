@@ -3,7 +3,9 @@ package lab5pt2;
 public class CenarioBonus extends Cenario {
 
 	private int bonus;
-
+	
+	// Construtor
+	
 	/**
 	 * Construtor da classe, recebe a descrição do cenário, a porcentagem que é a
 	 * taxa usada para calcular o dinheiro do caixa do Sistema quando as apostas
@@ -19,9 +21,15 @@ public class CenarioBonus extends Cenario {
 	 */
 	public CenarioBonus(String descricao, double porcentagem, int bonus) {
 		super(descricao, porcentagem);
-		this.bonus = super.valida.bonusCenario(bonus);
+		try {
+			this.bonus = super.valida.bonusCenario(bonus);
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i);
+		}
 	}
-
+	
+	// Métodos
+	
 	/**
 	 * @return Retorna o bônus do cenário
 	 */
@@ -30,24 +38,18 @@ public class CenarioBonus extends Cenario {
 	}
 
 	/**
-	 * Calcula o rateio que é o valor que será distribuído entre os vencedores da
-	 * aposta, esse valor só pode ser calculado após as apostas terem sido fechadas.
-	 * O rateio é o caixa dos perdedores menos a porcentagem desse valor que vai
-	 * para o sistema mais o bônus do cenário.
+	 * Calcula o montante de dinheiro a ser distribuído entre os vencedores caso o
+	 * cenário já tenha sido fechado.
 	 * 
-	 * Se as apostas não tiverem sido fechadas ainda, retorna 0.
+	 * @return Rateio do cenário
 	 */
 	@Override
 	public int calculaRateio() {
-		if (super.calculaRateio() != 0) {
-			return super.calculaRateio() + bonus;
-		}
-		return 0;
+		return super.calculaRateio() + bonus;
 	}
 
 	/**
-	 * Representação textual do cenário, se apresenta no seguinte formato: NUMERAÇÃO
-	 * - DESCRIÇÃO - ESTADO - BÔNUS
+	 * Representação textual do cenário.
 	 */
 	@Override
 	public String toString() {
