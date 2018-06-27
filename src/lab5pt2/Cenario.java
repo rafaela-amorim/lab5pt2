@@ -6,8 +6,7 @@ public class Cenario {
 
 	// Atributos
 
-	private HashMap<Integer, Aposta> favoravel;
-	private HashMap<Integer, Aposta> contra;
+	private HashMap<Integer, Aposta> apostas;
 	private String descricao;
 	private Estado estado;
 	private double porcentagem;
@@ -23,8 +22,7 @@ public class Cenario {
 	 * encerradas.
 	 * 
 	 * O estado do cenário inicia em Não finalizado, o caixa perdedor inicia em -1,
-	 * o index, ou índice, inicia em 1 e o validador e os dois hashmaps são
-	 * inicializados
+	 * o index, ou índice, inicia em 1 e o validador e o hashmap é inicializado.
 	 * 
 	 * @param descricao
 	 *            Descrição do cenário
@@ -39,22 +37,20 @@ public class Cenario {
 			this.porcentagem = valida.taxaSistema(porcentagem);
 
 			estado = Estado.N_FINALIZADO;
-			favoravel = new HashMap<>();
-			contra = new HashMap<>();
+			apostas = new HashMap<>();
 			index = 1;
 			caixaPerdedor = -1;
 		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de cenario: " + n);
+			throw new NullPointerException("Erro no cadastro de cenario: " + n.getMessage());
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i);
+			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i.getMessage());
 		}
 	}
 
 	// Métodos
 
 	/**
-	 * Método auxiliar que cadastra uma nova aposta em seu respectivo HashMap,
-	 * dependendo da previsão da aposta.
+	 * Método auxiliar que cadastra uma nova aposta no cenário.
 	 * 
 	 * @param aposta
 	 *            A Aposta que será cadastrada no Cenário;
@@ -62,12 +58,7 @@ public class Cenario {
 	 */
 	private int cadastraApostaAux(Aposta aposta) {
 		valida.cenarioFechado(getEstado());
-
-		if (aposta.getPrevisao().equals("VAI ACONTECER")) {
-			favoravel.put(index++, aposta);
-		} else {
-			contra.put(index++, aposta);
-		}
+		apostas.put(index++, aposta);
 		return index;
 	}
 
@@ -106,7 +97,7 @@ public class Cenario {
 		Aposta aposta = new Aposta(apostador, valor, previsao, valorSeguro);
 		return cadastraApostaAux(aposta);
 	}
-	
+
 	/**
 	 * Cadastra Aposta assegurada por taxa, recebe nome do apostador, valor da
 	 * aposta, previsão e a taxa do seguro, retorna o número identificador da
@@ -136,13 +127,7 @@ public class Cenario {
 	public String exibeApostas() {
 		String lista = "";
 
-		for (Aposta item : favoravel.values()) {
-			lista += item.toString() + System.lineSeparator();
-		}
-
-		lista.trim();
-
-		for (Aposta item : contra.values()) {
+		for (Aposta item : apostas.values()) {
 			lista += item.toString() + System.lineSeparator();
 		}
 
@@ -150,15 +135,11 @@ public class Cenario {
 	}
 
 	/**
-	 * Verifica se o cenário já foi fechado, se sim, retorna uma flag. Senão, muda o
-	 * estado de acordo com o boolean se o cenário ocorreu ou não, calcula a
-	 * porcentagem do caixa adquirido que vai para o Sistema e o que vai para os
-	 * vencedores.
+	 * Fecha o cenário para apostas e determina quanto é o caixa perdedor e qual o
+	 * Estado atual de acordo com o resultado do cenário.
 	 * 
 	 * @param ocorreu
-	 *            Boolean que indica se o cenário ocorreu ou não.
-	 * @return Retorna o valor do caixa que vai para o Sistema, ou -1 caso o cenário
-	 *         já tivesse sido fechado.
+	 *            Boolean que determina se a descrição do cenário ocorreu ou não.
 	 */
 	public void fecharAposta(boolean ocorreu) {
 		valida.cenarioFechado(getEstado());
@@ -197,7 +178,7 @@ public class Cenario {
 			valida.cenarioAberto(getEstado());
 			return (int) Math.floor(caixaPerdedor * porcentagem);
 		} catch (IllegalAccessError e) {
-			throw new IllegalAccessError("Erro na consulta do caixa do cenario: " + e);
+			throw new IllegalAccessError("Erro na consulta do caixa do cenario: " + e.getMessage());
 		}
 
 	}
@@ -225,7 +206,7 @@ public class Cenario {
 			valida.cenarioAberto(getEstado());
 			return caixaPerdedor - getCaixaCenario();
 		} catch (IllegalAccessError e) {
-			throw new IllegalAccessError("Erro na consulta do total de rateio do cenario: " + e);
+			throw new IllegalAccessError("Erro na consulta do total de rateio do cenario: " + e.getMessage());
 		}
 	}
 
@@ -249,7 +230,7 @@ public class Cenario {
 
 	/**
 	 * Representação textual do cenário, contém a descrição e o estado atual do
-	 * cenário. A String se dá no seguinte formato: DESCRIÇÃO - ESTADO
+	 * cenário.
 	 */
 	@Override
 	public String toString() {
@@ -264,8 +245,10 @@ public class Cenario {
 	private int caixaFavoravel() {
 		int caixa = 0;
 
-		for (Aposta ap : favoravel.values()) {
-			caixa += ap.getValor();
+		for (Aposta ap : apostas.values()) {
+			if (ap.getPrevisao().equals("VAI ACONTECER")) {
+				caixa += ap.getValor();
+			}
 		}
 		return caixa;
 	}
@@ -278,10 +261,53 @@ public class Cenario {
 	private int caixaContra() {
 		int caixa = 0;
 
-		for (Aposta ap : contra.values()) {
-			caixa += ap.getValor();
+		for (Aposta ap : apostas.values()) {
+			if (ap.getPrevisao().equals("N VAI ACONTECER")) {
+				caixa += ap.getValor();
+			}
 		}
 		return caixa;
 	}
 
+	/**
+	 * Altera uma aposta assegurada por taxa para aposta assegurada por valor.
+	 * 
+	 * @param apostaAssegurada
+	 *            Identificador da aposta.
+	 * @param valor
+	 *            Novo valor do seguro da aposta.
+	 */
+	public void alterarSeguroValor(int apostaAssegurada, int valor) {
+		verificaAposta(apostaAssegurada);
+		Aposta ap = apostas.get(apostaAssegurada);
+		ap.alteraSeguroValor(valor);
+	}
+
+	/**
+	 * Altera uma aposta assegurada por valor para aposta assegurada por taxa.
+	 * 
+	 * @param apostaAssegurada
+	 *            Identificador da aposta.
+	 * @param taxa
+	 *            Novo taxa do seguro da aposta.
+	 */
+	public void alterarSeguroTaxa(int apostaAssegurada, double taxa) {
+		verificaAposta(apostaAssegurada);
+		Aposta ap = apostas.get(apostaAssegurada);
+		ap.alteraSeguroTaxa(taxa);
+	}
+
+	/**
+	 * Verifica a existência de uma aposta nesse cenário.
+	 * 
+	 * @param id
+	 *            Identificador da aposta.
+	 * @return Retorna o próprio índice, se encontrado.
+	 */
+	private int verificaAposta(int id) {
+		if (!(apostas.containsKey(id))) {
+			throw new IllegalAccessError("Aposta inválida ou não existe");
+		}
+		return id;
+	}
 }

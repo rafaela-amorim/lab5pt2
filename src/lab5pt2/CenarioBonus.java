@@ -24,7 +24,7 @@ public class CenarioBonus extends Cenario {
 		try {
 			this.bonus = super.valida.bonusCenario(bonus);
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i);
+			throw new IllegalArgumentException("Erro no cadastro de cenario: " + i.getMessage());
 		}
 	}
 	

@@ -37,9 +37,9 @@ public class Aposta {
 			this.previsao = valida.previsaoAposta(previsao);
 			seguro = new SemSeguro();
 		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de aposta: " + n);
+			throw new NullPointerException("Erro no cadastro de aposta: " + n.getMessage());
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta: " + i);
+			throw new IllegalArgumentException("Erro no cadastro de aposta: " + i.getMessage());
 		}
 	}
 
@@ -60,9 +60,9 @@ public class Aposta {
 		try {
 			seguro = new SeguroValor(valida.valorSeguroAposta(valorSeguro));
 		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de aposta assegurada por valor: " + n);
+			throw new NullPointerException("Erro no cadastro de aposta assegurada por valor: " + n.getMessage());
 		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por valor: " + e);
+			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
 		}
 	}
 
@@ -84,9 +84,9 @@ public class Aposta {
 		try {
 			seguro = new SeguroTaxa(valor, taxaSeguro);
 		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de aposta assegurada por taxa: " + n);
+			throw new NullPointerException("Erro no cadastro de aposta assegurada por taxa: " + n.getMessage());
 		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por taxa: " + i);
+			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por taxa: " + i.getMessage());
 		}
 	}
 
@@ -126,6 +126,36 @@ public class Aposta {
 	 */
 	public int getValorSeguro() {
 		return seguro.getValorSeguro();
+	}
+
+	/**
+	 * Auxiliar para alterar uma aposta assegurada de taxa para valor.
+	 * 
+	 * @param valor
+	 *            Novo valor para o seguro.
+	 */
+	public void alteraSeguroValor(int valor) {
+		try {
+			valida.valorSeguroAposta(valor);
+			seguro = new SeguroValor(valor);
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro ao alterar seguro da aposta: " + i.getMessage());
+		}
+	}
+
+	/**
+	 * Auxiliar para alterar uma aposta assegurada de taxa para valor.
+	 * 
+	 * @param taxa
+	 *            Nova taxa para o seguro.
+	 */
+	public void alteraSeguroTaxa(double taxa) {
+		try {
+			valida.taxaSeguroAposta(taxa);
+			seguro = new SeguroTaxa(getValor(), taxa);
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro ao alterar seguro da aposta: " + i.getMessage());
+		}
 	}
 
 	/**

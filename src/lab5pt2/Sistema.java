@@ -34,8 +34,13 @@ public class Sistema {
 		valida = new Validador();
 		cenarios = new HashMap<>();
 		indiceCenarios = 1;
-		this.caixa = valida.caixaSistema(caixa);
-		this.taxa = valida.taxaSistema(taxa);
+		
+		try { 
+			this.caixa = valida.caixaSistema(caixa);
+			this.taxa = valida.taxaSistema(taxa);
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Erro na inicializacao: " + e.getMessage());
+		}
 	}
 
 	// Métodos
@@ -48,7 +53,7 @@ public class Sistema {
 	 */
 	private void verificaCenario(int index) throws IllegalAccessError {
 		valida.indexCenarioSistema(index);
-		
+
 		if (!(cenarios.containsKey(index))) {
 			throw new IllegalAccessError("Cenario nao cadastrado");
 		}
@@ -66,7 +71,16 @@ public class Sistema {
 		cenarios.put(indiceCenarios++, aux);
 		return indiceCenarios;
 	}
-	
+
+	/**
+	 * Cadastra um novo Cenário com bônus no Sistema.
+	 * 
+	 * @param descricao
+	 *            Descrição do cenário
+	 * @param bonus
+	 *            Bônus que será distribuído entre os vencedores da aposta.
+	 * @return Retorna o identificador do cenário.
+	 */
 	public int cadastrarCenario(String descricao, int bonus) {
 		Cenario aux = new CenarioBonus(descricao, taxa, bonus);
 		cenarios.put(indiceCenarios++, aux);
@@ -78,7 +92,7 @@ public class Sistema {
 	 * parâmetro.
 	 * 
 	 * @param cenario
-	 *            Inteiro que indica a posição do cenário por ordem de cadastro.
+	 *            Identificador do cenário.
 	 * @param nome
 	 *            Nome do apostador.
 	 * @param valor
@@ -89,21 +103,71 @@ public class Sistema {
 	public void cadastrarAposta(int cenario, String nome, int valor, String previsao) {
 		try {
 			verificaCenario(cenario);
-			cenarios.get(cenario).cadastraAposta(nome, valor, previsao);
+			cenarios.get(cenario).cadastrarAposta(nome, valor, previsao);
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro no cadastro de aposta: " + a);
+			throw new IllegalAccessError("Erro no cadastro de aposta: " + a.getMessage());
 		}
 	}
-	
-	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valorSeguro, int custo) {
+
+	/**
+	 * Cadastra no sistema Aposta com Seguro por valor, recebendo os parâmetros da
+	 * aposta e o identificador do cenário no qual se deseja apostar.
+	 * 
+	 * @param cenario
+	 *            Identificador do cenário.
+	 * @param nome
+	 *            Nome do apostador.
+	 * @param valor
+	 *            Valor da aposta.
+	 * @param previsao
+	 *            Previsão da aposta.
+	 * @param valSeg
+	 *            Valor Assegurado
+	 * @param custo
+	 *            Preço do seguro.
+	 * @return Retorna o identificador da Aposta.
+	 */
+	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valSeg,
+			int custo) {
 		try {
 			verificaCenario(cenario);
-			cenarios.get(cenario).cadastrarApostaSeguraValor(apostador, valorSeguro, previsao, valorSeguro);
+			int indice = cenarios.get(cenario).cadastrarApostaSeguraValor(apostador, valor, previsao, valSeg);
 			caixa += custo;
+			return indice;
 		} catch (IllegalAccessError e) {
-			throw new IllegalAccessError("");
+			throw new IllegalAccessError("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
 		}
-		return // indice aposta
+	}
+
+	/**
+	 * Cadastra uma nova Aposta com Seguro por taxa no Sistema, recebe os parâmetros
+	 * da Aposta assegurada e o identificador do cenário no qual será apostado.
+	 * 
+	 * @param cenario
+	 *            Identificador do cenário.
+	 * @param nome
+	 *            Nome do apostador.
+	 * @param valor
+	 *            Valor da aposta.
+	 * @param previsao
+	 *            Previsão da aposta.
+	 * @param taxa
+	 *            Porcentagem para calcular o valor assegurado com base no valor da
+	 *            aposta.
+	 * @param custo
+	 *            Preço do seguro.
+	 * @return Retorna o identificador da Aposta.
+	 */
+	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa,
+			int custo) {
+		try {
+			verificaCenario(cenario);
+			int indice = cenarios.get(cenario).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
+			caixa += custo;
+			return indice;
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro no cadastro de aposta assegurada por taxa: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -119,7 +183,7 @@ public class Sistema {
 			verificaCenario(cenario);
 			return cenarios.get(cenario).toString();
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro ao exibir cenario: " + a);
+			throw new IllegalAccessError("Erro ao exibir cenario: " + a.getMessage());
 		}
 	}
 
@@ -151,7 +215,7 @@ public class Sistema {
 			verificaCenario(cenario);
 			return cenarios.get(cenario).valorTotalDeAposta();
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro na consulta do valor total de apostas: " + a);
+			throw new IllegalAccessError("Erro na consulta do valor total de apostas: " + a.getMessage());
 		}
 	}
 
@@ -167,7 +231,7 @@ public class Sistema {
 			verificaCenario(cenario);
 			return cenarios.get(cenario).totalDeApostas();
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro na consulta do total de apostas: " + a);
+			throw new IllegalAccessError("Erro na consulta do total de apostas: " + a.getMessage());
 		}
 	}
 
@@ -183,7 +247,7 @@ public class Sistema {
 			verificaCenario(cenario);
 			return cenarios.get(cenario).exibeApostas();
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro ao exibir apostas: " + a);
+			throw new IllegalAccessError("Erro ao exibir apostas: " + a.getMessage());
 		}
 	}
 
@@ -207,7 +271,7 @@ public class Sistema {
 				caixa += caixaCenario;
 			}
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro ao fechar aposta: " + a);
+			throw new IllegalAccessError("Erro ao fechar aposta: " + a.getMessage());
 		}
 	}
 
@@ -220,12 +284,8 @@ public class Sistema {
 	 * @return Retorna o valor a ser distribuído entre os ganhadores.
 	 */
 	public int getTotalRateioCenario(int cenario) {
-		try {
-			verificaCenario(cenario);
-			return cenarios.get(cenario).calculaRateio();
-		} catch (IllegalAccessError a) {
-			throw a;
-		}
+		verificaCenario(cenario);
+		return cenarios.get(cenario).calculaRateio();
 	}
 
 	/**
@@ -246,11 +306,49 @@ public class Sistema {
 	 * @return O dinheiro que irá para o Sistema ou -1.
 	 */
 	public int getCaixaCenario(int cenario) {
+		verificaCenario(cenario);
+		return cenarios.get(cenario).getCaixaCenario();
+	}
+
+	/**
+	 * Altera uma aposta assegurada por valor para aposta assegurada por taxa.
+	 * 
+	 * @param cenario
+	 *            O identificador do cenário ao qual pertence a aposta.
+	 * @param apostaAssegurada
+	 *            Identificador da aposta.
+	 * @param valor
+	 *            Novo valor do seguro da aposta.
+	 * @return Retorna o identificador da aposta.
+	 */
+	public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {
 		try {
 			verificaCenario(cenario);
-			return cenarios.get(cenario).getCaixaCenario();
+			cenarios.get(cenario).alterarSeguroValor(apostaAssegurada, valor);
+			return apostaAssegurada;
 		} catch (IllegalAccessError e) {
-			throw e;
+			throw new IllegalAccessError("Erro ao alterar seguro da aposta: " + e.getMessage());
+		}
+	}
+
+	/**
+	 * Altera uma aposta assegurada por valor para aposta assegurada por taxa.
+	 * 
+	 * @param cenario
+	 *            O identificador do cenário ao qual pertence a aposta.
+	 * @param apostaAssegurada
+	 *            Identificador da aposta.
+	 * @param taxa
+	 *            Nova taxa do seguro da aposta.
+	 * @return Retorna o identificador da aposta.
+	 */
+	public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
+		try {
+			verificaCenario(cenario);
+			cenarios.get(cenario).alterarSeguroTaxa(apostaAssegurada, taxa);
+			return apostaAssegurada;
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro ao alterar seguro da aposta: " + e.getMessage());
 		}
 	}
 }
