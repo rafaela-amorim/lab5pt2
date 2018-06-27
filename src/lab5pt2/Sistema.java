@@ -68,8 +68,8 @@ public class Sistema {
 	 */
 	public int cadastrarCenario(String descricao) {
 		Cenario aux = new Cenario(descricao, taxa);
-		cenarios.put(indiceCenarios++, aux);
-		return indiceCenarios;
+		cenarios.put(indiceCenarios, aux);
+		return indiceCenarios++;
 	}
 
 	/**
@@ -83,8 +83,9 @@ public class Sistema {
 	 */
 	public int cadastrarCenario(String descricao, int bonus) {
 		Cenario aux = new CenarioBonus(descricao, taxa, bonus);
-		cenarios.put(indiceCenarios++, aux);
-		return indiceCenarios;
+		cenarios.put(indiceCenarios, aux);
+		this.caixa -= bonus;
+		return indiceCenarios++;
 	}
 
 	/**
@@ -104,6 +105,10 @@ public class Sistema {
 		try {
 			verificaCenario(cenario);
 			cenarios.get(cenario).cadastrarAposta(nome, valor, previsao);
+		} catch (NullPointerException n) {
+			throw new NullPointerException("Erro no cadastro de aposta: " + n.getMessage());
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro no cadastro de aposta: " + i.getMessage());
 		} catch (IllegalAccessError a) {
 			throw new IllegalAccessError("Erro no cadastro de aposta: " + a.getMessage());
 		}
@@ -134,9 +139,13 @@ public class Sistema {
 			int indice = cenarios.get(cenario).cadastrarApostaSeguraValor(apostador, valor, previsao, valSeg);
 			caixa += custo;
 			return indice;
+		} catch (NullPointerException n) {
+			throw new NullPointerException("Erro no cadastro de aposta assegurada por valor: " + n.getMessage());
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
 		} catch (IllegalAccessError e) {
 			throw new IllegalAccessError("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
-		}
+		} 
 	}
 
 	/**
@@ -165,6 +174,10 @@ public class Sistema {
 			int indice = cenarios.get(cenario).cadastrarApostaSeguraTaxa(apostador, valor, previsao, taxa);
 			caixa += custo;
 			return indice;
+		} catch (NullPointerException n) {
+			throw new NullPointerException("Erro no cadastro de aposta assegurada por taxa: " + n.getMessage());
+		} catch (IllegalArgumentException i) {
+			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por taxa: " + i.getMessage());
 		} catch (IllegalAccessError e) {
 			throw new IllegalAccessError("Erro no cadastro de aposta assegurada por taxa: " + e.getMessage());
 		}
@@ -267,7 +280,7 @@ public class Sistema {
 
 			int caixaCenario = cenarios.get(cenario).getCaixaCenario();
 			caixa += caixaCenario;
-			
+			caixa -= cenarios.get(cenario).valorAssegurado();
 		} catch (IllegalAccessError a) {
 			throw new IllegalAccessError("Erro ao fechar aposta: " + a.getMessage());
 		}

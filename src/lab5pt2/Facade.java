@@ -3,21 +3,23 @@ package lab5pt2;
 import easyaccept.EasyAccept;
 
 public class Facade {
-	
+
 	public static void main(String[] args) {
-		args = new String[] {"lab5pt2.Facade","/home/rafaelaabs/Documentos/tstEasyAccept/us1_test.txt", 
-											  "/home/rafaelaabs/Documentos/tstEasyAccept/us2_test.txt",
-											  "/home/rafaelaabs/Documentos/tstEasyAccept/us3_test.txt",
-											  "/home/rafaelaabs/Documentos/tstEasyAccept/us4_test.txt"};
+		args = new String[] { "lab5pt2.Facade", "/home/rafaelaabs/Documentos/tstEasyAccept/us1_test.txt",
+												"/home/rafaelaabs/Documentos/tstEasyAccept/us2_test.txt",
+												"/home/rafaelaabs/Documentos/tstEasyAccept/us3_test.txt",
+												"/home/rafaelaabs/Documentos/tstEasyAccept/us4_test.txt",
+												"/home/rafaelaabs/Documentos/tstEasyAccept/us5_test.txt",
+												"/home/rafaelaabs/Documentos/tstEasyAccept/us6_test.txt"};
 		EasyAccept.main(args);
 	}
-	
-	// Atributos 
-	
+
+	// Atributos
+
 	private Sistema sistema;
 
 	private boolean iniciado;
-	
+
 	// Métodos
 
 	/**
@@ -27,7 +29,7 @@ public class Facade {
 	public Facade() {
 		iniciado = false;
 	}
-	
+
 	/**
 	 * Método que verifica se o sistema já foi inicializado ou não.
 	 */
@@ -36,7 +38,7 @@ public class Facade {
 			throw new IllegalAccessError("Erro na inicializacao");
 		}
 	}
- 	
+
 	/**
 	 * Inicializa o Sistema, com uma taxa para o cálculo dos ganhos do sistema e um
 	 * caixa que representa o dinheiro que o sistema tem inicialmente.
@@ -47,12 +49,9 @@ public class Facade {
 	 *            taxa para calcular o quanto o sistema ganha por aposta encerrada.
 	 */
 	public void inicializa(int caixa, double taxa) {
-		try {
-			sistema = new Sistema(caixa, taxa);
-			iniciado = true;
-		} catch (Exception n) {
-			throw n;
-		}
+		sistema = new Sistema(caixa, taxa);
+		iniciado = true;
+
 	}
 
 	/**
@@ -74,11 +73,8 @@ public class Facade {
 	 */
 	public int cadastrarCenario(String descricao) {
 		jaInicializou();
-		try {
-			return sistema.cadastrarCenario(descricao);
-		} catch (Exception e) {
-			throw e;
-		}
+		return sistema.cadastrarCenario(descricao);
+
 	}
 
 	/**
@@ -91,11 +87,8 @@ public class Facade {
 	 */
 	public String exibirCenario(int cenario) {
 		jaInicializou();
-		try {
-			return sistema.exibirCenario(cenario);
-		} catch (Exception e) {
-			throw e;
-		}
+		return sistema.exibirCenario(cenario);
+
 	}
 
 	/**
@@ -106,11 +99,7 @@ public class Facade {
 	 */
 	public String exibirCenarios() {
 		jaInicializou();
-		try {
-			return sistema.exibirCenarios();
-		} catch (Exception e) { 
-			throw e;
-		}
+		return sistema.exibirCenarios();
 	}
 
 	/**
@@ -128,13 +117,9 @@ public class Facade {
 	 */
 	public void cadastrarAposta(int cenario, String apostador, int valor, String previsao) {
 		jaInicializou();
-		try {
-			sistema.cadastrarAposta(cenario, apostador, valor, previsao);
-		} catch (Exception e) { 
-			throw e;
-		}
+		sistema.cadastrarAposta(cenario, apostador, valor, previsao);
 	}
-
+	
 	/**
 	 * Retorna um inteiro com o total de dinheiro que foi apostado no cenário de
 	 * mesma numeração do parâmetro.
@@ -145,11 +130,7 @@ public class Facade {
 	 */
 	public int valorTotalDeApostas(int cenario) {
 		jaInicializou();
-		try {
-			return sistema.valorTotalDeApostas(cenario);
-		} catch (Exception e) { 
-			throw e;
-		}
+		return sistema.valorTotalDeApostas(cenario);
 	}
 
 	/**
@@ -162,11 +143,7 @@ public class Facade {
 	 */
 	public int totalDeApostas(int cenario) {
 		jaInicializou();
-		try {
-			return sistema.totalDeApostas(cenario);
-		} catch (Exception e) { 
-			throw e;
-		}
+		return sistema.totalDeApostas(cenario);
 	}
 
 	/**
@@ -179,11 +156,7 @@ public class Facade {
 	 */
 	public String exibeApostas(int cenario) {
 		jaInicializou();
-		try {
-			return sistema.exibeApostas(cenario);
-		} catch (Exception e) { 
-			throw e;
-		}
+		return sistema.exibeApostas(cenario);
 	}
 
 	/**
@@ -195,13 +168,9 @@ public class Facade {
 	 * @param ocorreu
 	 *            boolean que representa se a previsão do cenário ocorreu ou não.
 	 */
-	public void fechaAposta(int cenario, boolean ocorreu) {
+	public void fecharAposta(int cenario, boolean ocorreu) {
 		jaInicializou();
-		try {
-			sistema.fecharAposta(cenario, ocorreu);
-		} catch (Exception e) { 
-			throw e;
-		}
+		sistema.fecharAposta(cenario, ocorreu);
 	}
 
 	/**
@@ -214,11 +183,7 @@ public class Facade {
 	 */
 	public int getCaixaCenario(int cenario) {
 		jaInicializou();
-		try {
-			return sistema.getCaixaCenario(cenario);
-		} catch (Exception e) { 
-			throw e;
-		}
+		return sistema.getCaixaCenario(cenario);
 	}
 
 	/**
@@ -230,10 +195,101 @@ public class Facade {
 	 */
 	public int getTotalRateioCenario(int cenario) {
 		jaInicializou();
-		try {
-			return sistema.getTotalRateioCenario(cenario);
-		} catch (Exception e) { 
-			throw e;
-		}
+		return sistema.getTotalRateioCenario(cenario);
+	}
+
+	/**
+	 * Cadastra um novo cenário com bônus.
+	 * 
+	 * @param descricao
+	 *            Descrição do cenário
+	 * @param bonus
+	 *            Bônus que será adicionado ao montante distribuído entre os
+	 *            vencedores da aposta.
+	 * @return Retorna o número de identificação do cenário.
+	 */
+	public int cadastrarCenario(String descricao, int bonus) {
+		jaInicializou();
+		return sistema.cadastrarCenario(descricao, bonus);
+	}
+
+	/**
+	 * Cadastra uma nova aposta assegurada por valor no cenário especificado.
+	 * 
+	 * @param cenario
+	 *            Identificador do cenário
+	 * @param apostador
+	 *            Nome do apostador
+	 * @param valor
+	 *            Valor da aposta
+	 * @param previsao
+	 *            Previsão da aposta
+	 * @param valSeg
+	 *            Valor que será assegurado caso o apostador perca
+	 * @param custo
+	 *            Valor pago pelo seguro
+	 * @return Retorna o número de identificação da aposta.
+	 */
+	public int cadastrarApostaSeguraValor(int cenario, String apostador, int valor, String previsao, int valSeg,
+			int custo) {
+		jaInicializou();
+		return sistema.cadastrarApostaSeguraValor(cenario, apostador, valor, previsao, valSeg, custo);
+	}
+
+	/**
+	 * Cadastra uma nova aposta assegurada por taxa no cenário especificado.
+	 * 
+	 * @param cenario
+	 *            Identificador do cenário
+	 * @param apostador
+	 *            Nome do apostador
+	 * @param valor
+	 *            Valor da aposta
+	 * @param previsao
+	 *            Previsão da aposta
+	 * @param taxa
+	 *            Taxa para calcular o valor que será assegurado em cima do valor
+	 *            apostado caso o apostador perca.
+	 * @param custo
+	 *            Valor pago pelo seguro
+	 * @return Retorna o número de identificação da aposta.
+	 */
+	public int cadastrarApostaSeguraTaxa(int cenario, String apostador, int valor, String previsao, double taxa,
+			int custo) {
+		jaInicializou();
+		return sistema.cadastrarApostaSeguraTaxa(cenario, apostador, valor, previsao, taxa, custo);
+	}
+
+	/**
+	 * Altera uma aposta assegurada por taxa para aposta assegurada por valor.
+	 * 
+	 * @param cenario
+	 *            Identificador do cenário
+	 * @param apostaAssegurada
+	 *            Identificador da aposta assegurada
+	 * @param valor
+	 *            Novo valor para o seguro da aposta
+	 * @return Retorna o número de identificação da aposta.
+	 */
+	public int alterarSeguroValor(int cenario, int apostaAssegurada, int valor) {
+		jaInicializou();
+		return sistema.alterarSeguroValor(cenario, apostaAssegurada, valor);
+	}
+
+	/**
+	 * Altera uma aposta assegurada por valor para aposta assegurada por taxa.
+	 * 
+	 * @param cenario
+	 *            Identificador do cenário
+	 * @param apostaAssegurada
+	 *            Identificador da aposta assegurada
+	 * @param taxa
+	 *            Taxa para calcular o valor que será assegurado em cima do valor
+	 *            apostado caso o apostador perca.
+	 * @return Retorna o número de identificação da aposta.
+	 */
+	public int alterarSeguroTaxa(int cenario, int apostaAssegurada, double taxa) {
+		jaInicializou();
+		return sistema.alterarSeguroTaxa(cenario, apostaAssegurada, taxa);
 	}
 }

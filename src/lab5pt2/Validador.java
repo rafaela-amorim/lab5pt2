@@ -19,7 +19,7 @@ public class Validador {
 		}
 		return nomeAp;
 	}
-	
+
 	/**
 	 * Testa a previsão da classe Aposta, se não é nem nula nem argumento vazio.
 	 * 
@@ -97,10 +97,16 @@ public class Validador {
 			throw new IllegalAccessError("Cenario ainda esta aberto");
 		}
 	}
-	
+
+	/**
+	 * Verifica se o cenário já foi fechado.
+	 * 
+	 * @param estado
+	 *            Estado do cenário
+	 */
 	public void cenarioFechado(String estado) {
 		if (!(estado.equals("Nao finalizado"))) {
-			throw new IllegalAccessError("Cenario ja foi fechado");
+			throw new IllegalAccessError("Cenario ja esta fechado");
 		}
 	}
 
@@ -177,5 +183,5 @@ public class Validador {
 		}
 		return taxa;
 	}
-	
+
 }

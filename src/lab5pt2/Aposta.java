@@ -30,17 +30,10 @@ public class Aposta {
 	 */
 	public Aposta(String nome, int valor, String previsao) {
 		valida = new Validador();
-
-		try {
-			this.nomeApostador = valida.nomeApostador(nome);
-			this.valor = valida.valorAposta(valor);
-			this.previsao = valida.previsaoAposta(previsao);
-			seguro = new SemSeguro();
-		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de aposta: " + n.getMessage());
-		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta: " + i.getMessage());
-		}
+		this.nomeApostador = valida.nomeApostador(nome);
+		this.valor = valida.valorAposta(valor);
+		this.previsao = valida.previsaoAposta(previsao);
+		seguro = new SemSeguro();
 	}
 
 	/**
@@ -57,13 +50,7 @@ public class Aposta {
 	 */
 	public Aposta(String nome, int valor, String previsao, int valorSeguro) {
 		this(nome, valor, previsao);
-		try {
-			seguro = new SeguroValor(valida.valorSeguroAposta(valorSeguro));
-		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de aposta assegurada por valor: " + n.getMessage());
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por valor: " + e.getMessage());
-		}
+		seguro = new SeguroValor(valida.valorSeguroAposta(valorSeguro));
 	}
 
 	/**
@@ -81,13 +68,7 @@ public class Aposta {
 	 */
 	public Aposta(String nome, int valor, String previsao, double taxaSeguro) {
 		this(nome, valor, previsao);
-		try {
-			seguro = new SeguroTaxa(valor, taxaSeguro);
-		} catch (NullPointerException n) {
-			throw new NullPointerException("Erro no cadastro de aposta assegurada por taxa: " + n.getMessage());
-		} catch (IllegalArgumentException i) {
-			throw new IllegalArgumentException("Erro no cadastro de aposta assegurada por taxa: " + i.getMessage());
-		}
+		seguro = new SeguroTaxa(valor, taxaSeguro);
 	}
 
 	// Métodos

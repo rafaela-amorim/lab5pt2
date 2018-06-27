@@ -58,8 +58,8 @@ public class Cenario {
 	 */
 	private int cadastraApostaAux(Aposta aposta) {
 		valida.cenarioFechado(getEstado());
-		apostas.put(index++, aposta);
-		return index;
+		apostas.put(index, aposta);
+		return index++;
 	}
 
 	/**
@@ -157,14 +157,12 @@ public class Cenario {
 	}
 
 	/**
-	 * Método que retorna a quantidade total de apostas ao retornar o número da
-	 * ultima aposta adicionada, já que seus índices são números crescentes
-	 * ordenados a partir do 1.
+	 * Método que retorna a quantidade total de apostas do cenário.
 	 * 
 	 * @return Quantidade total de apostas.
 	 */
 	public int totalDeApostas() {
-		return index - 1;
+		return apostas.size();
 	}
 
 	/**
@@ -293,12 +291,31 @@ public class Cenario {
 	 * 
 	 * @param id
 	 *            Identificador da aposta.
-	 * @return Retorna o próprio índice, se encontrado.
 	 */
-	private int verificaAposta(int id) {
+	private void verificaAposta(int id) {
 		if (!(apostas.containsKey(id))) {
 			throw new IllegalAccessError("Aposta inválida ou não existe");
 		}
-		return id;
+	}
+
+	/**
+	 * Retorna a soma do valor que foi assegurado de todos os perdedores.
+	 * 
+	 * @return valor assegurado dos perdedores.
+	 */
+	public int valorAssegurado() {
+		valida.cenarioAberto(getEstado());
+		
+		int saida = 0;
+
+		for (Aposta ap : apostas.values()) {
+			if (getEstado().equals("Finalizado (ocorreu)") && ap.getPrevisao().equals("N VAI ACONTECER")) {
+				saida += ap.getValorSeguro();
+			}
+			if (getEstado().equals("Finalizado (n ocorreu)") && ap.getPrevisao().equals("VAI ACONTECER")) {
+				saida += ap.getValorSeguro();
+			}
+		}
+		return saida;
 	}
 }

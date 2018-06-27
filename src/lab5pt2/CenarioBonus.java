@@ -54,6 +54,6 @@ public class CenarioBonus extends Cenario {
 	@Override
 	public String toString() {
 		double aux = bonus / 100.0;
-		return super.toString() + " - R$" + String.format("%1$,.2f", aux);
+		return super.toString() + " - R$ " + String.format("%1$,.2f", aux);
 	}
 }
