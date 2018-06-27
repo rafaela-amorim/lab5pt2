@@ -93,13 +93,13 @@ public class Validador {
 	 *            Estado do cenário.
 	 */
 	public void cenarioAberto(String estado) {
-		if (estado.equals("Não finalizado")) {
+		if (estado.equals("Nao finalizado")) {
 			throw new IllegalAccessError("Cenario ainda esta aberto");
 		}
 	}
 	
 	public void cenarioFechado(String estado) {
-		if (!(estado.equals("Não finalizado"))) {
+		if (!(estado.equals("Nao finalizado"))) {
 			throw new IllegalAccessError("Cenario ja foi fechado");
 		}
 	}

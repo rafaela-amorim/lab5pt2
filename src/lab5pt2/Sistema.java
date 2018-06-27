@@ -181,9 +181,9 @@ public class Sistema {
 	public String exibirCenario(int cenario) {
 		try {
 			verificaCenario(cenario);
-			return cenarios.get(cenario).toString();
+			return cenario + " - " + cenarios.get(cenario).toString();
 		} catch (IllegalAccessError a) {
-			throw new IllegalAccessError("Erro ao exibir cenario: " + a.getMessage());
+			throw new IllegalAccessError("Erro na consulta de cenario: " + a.getMessage());
 		}
 	}
 
@@ -266,10 +266,8 @@ public class Sistema {
 			cenarios.get(cenario).fecharAposta(ocorreu);
 
 			int caixaCenario = cenarios.get(cenario).getCaixaCenario();
-
-			if (caixaCenario != -1) {
-				caixa += caixaCenario;
-			}
+			caixa += caixaCenario;
+			
 		} catch (IllegalAccessError a) {
 			throw new IllegalAccessError("Erro ao fechar aposta: " + a.getMessage());
 		}
@@ -284,8 +282,12 @@ public class Sistema {
 	 * @return Retorna o valor a ser distribuído entre os ganhadores.
 	 */
 	public int getTotalRateioCenario(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).calculaRateio();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).calculaRateio();
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro na consulta do total de rateio do cenario: " + e.getMessage());
+		}
 	}
 
 	/**
@@ -306,8 +308,12 @@ public class Sistema {
 	 * @return O dinheiro que irá para o Sistema ou -1.
 	 */
 	public int getCaixaCenario(int cenario) {
-		verificaCenario(cenario);
-		return cenarios.get(cenario).getCaixaCenario();
+		try {
+			verificaCenario(cenario);
+			return cenarios.get(cenario).getCaixaCenario();
+		} catch (IllegalAccessError e) {
+			throw new IllegalAccessError("Erro na consulta do caixa do cenario: " + e.getMessage());
+		}
 	}
 
 	/**

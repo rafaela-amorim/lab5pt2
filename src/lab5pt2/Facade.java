@@ -1,6 +1,16 @@
 package lab5pt2;
 
+import easyaccept.EasyAccept;
+
 public class Facade {
+	
+	public static void main(String[] args) {
+		args = new String[] {"lab5pt2.Facade","/home/rafaelaabs/Documentos/tstEasyAccept/us1_test.txt", 
+											  "/home/rafaelaabs/Documentos/tstEasyAccept/us2_test.txt",
+											  "/home/rafaelaabs/Documentos/tstEasyAccept/us3_test.txt",
+											  "/home/rafaelaabs/Documentos/tstEasyAccept/us4_test.txt"};
+		EasyAccept.main(args);
+	}
 	
 	// Atributos 
 	
@@ -23,7 +33,7 @@ public class Facade {
 	 */
 	private void jaInicializou() {
 		if (!(iniciado)) {
-			throw new IllegalAccessError("O sistema não foi inicializado");
+			throw new IllegalAccessError("Erro na inicializacao");
 		}
 	}
  	
@@ -37,8 +47,12 @@ public class Facade {
 	 *            taxa para calcular o quanto o sistema ganha por aposta encerrada.
 	 */
 	public void inicializa(int caixa, double taxa) {
-		sistema = new Sistema(caixa, taxa);
-		iniciado = true;
+		try {
+			sistema = new Sistema(caixa, taxa);
+			iniciado = true;
+		} catch (Exception n) {
+			throw n;
+		}
 	}
 
 	/**
@@ -58,9 +72,13 @@ public class Facade {
 	 *            Descrição do cenário.
 	 * @return Retorna a numeração do cenário cadastrado.
 	 */
-	public int cadastraCenario(String descricao) {
+	public int cadastrarCenario(String descricao) {
 		jaInicializou();
-		return sistema.cadastraCenario(descricao);
+		try {
+			return sistema.cadastrarCenario(descricao);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	/**
@@ -73,7 +91,11 @@ public class Facade {
 	 */
 	public String exibirCenario(int cenario) {
 		jaInicializou();
-		return sistema.exibirCenario(cenario);
+		try {
+			return sistema.exibirCenario(cenario);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	/**
@@ -84,7 +106,11 @@ public class Facade {
 	 */
 	public String exibirCenarios() {
 		jaInicializou();
-		return sistema.exibirCenarios();
+		try {
+			return sistema.exibirCenarios();
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -102,7 +128,11 @@ public class Facade {
 	 */
 	public void cadastrarAposta(int cenario, String apostador, int valor, String previsao) {
 		jaInicializou();
-		sistema.cadastraAposta(cenario, apostador, valor, previsao);
+		try {
+			sistema.cadastrarAposta(cenario, apostador, valor, previsao);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -115,7 +145,11 @@ public class Facade {
 	 */
 	public int valorTotalDeApostas(int cenario) {
 		jaInicializou();
-		return sistema.valorTotalDeApostas(cenario);
+		try {
+			return sistema.valorTotalDeApostas(cenario);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -128,7 +162,11 @@ public class Facade {
 	 */
 	public int totalDeApostas(int cenario) {
 		jaInicializou();
-		return sistema.totalDeApostas(cenario);
+		try {
+			return sistema.totalDeApostas(cenario);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -141,7 +179,11 @@ public class Facade {
 	 */
 	public String exibeApostas(int cenario) {
 		jaInicializou();
-		return sistema.exibeApostas(cenario);
+		try {
+			return sistema.exibeApostas(cenario);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -155,7 +197,11 @@ public class Facade {
 	 */
 	public void fechaAposta(int cenario, boolean ocorreu) {
 		jaInicializou();
-		sistema.fecharAposta(cenario, ocorreu);
+		try {
+			sistema.fecharAposta(cenario, ocorreu);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -168,7 +214,11 @@ public class Facade {
 	 */
 	public int getCaixaCenario(int cenario) {
 		jaInicializou();
-		return sistema.getCaixaCenario(cenario);
+		try {
+			return sistema.getCaixaCenario(cenario);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 
 	/**
@@ -180,6 +230,10 @@ public class Facade {
 	 */
 	public int getTotalRateioCenario(int cenario) {
 		jaInicializou();
-		return sistema.getTotalRateioCenario(cenario);
+		try {
+			return sistema.getTotalRateioCenario(cenario);
+		} catch (Exception e) { 
+			throw e;
+		}
 	}
 }

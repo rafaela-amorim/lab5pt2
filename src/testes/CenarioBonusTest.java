@@ -22,7 +22,7 @@ public class CenarioBonusTest {
 
 	@Test
 	public void testCalculaRateioCenFechado() {
-		cb.cadastraAposta("rafa", 300, "VAI ACONTECER");
+		cb.cadastrarAposta("rafa", 300, "VAI ACONTECER");
 		cb.fecharAposta(false);
 		assertEquals(2270, cb.calculaRateio());	// 300 - 300 * 0.1 = 270 -> 270 + 2000
 	}

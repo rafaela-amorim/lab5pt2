@@ -174,13 +174,8 @@ public class Cenario {
 	 * @return a quantia de dinheiro que irá para o sistema.
 	 */
 	public int getCaixaCenario() {
-		try {
-			valida.cenarioAberto(getEstado());
-			return (int) Math.floor(caixaPerdedor * porcentagem);
-		} catch (IllegalAccessError e) {
-			throw new IllegalAccessError("Erro na consulta do caixa do cenario: " + e.getMessage());
-		}
-
+		valida.cenarioAberto(getEstado());
+		return (int) Math.floor(caixaPerdedor * porcentagem);
 	}
 
 	/**
@@ -202,12 +197,8 @@ public class Cenario {
 	 * @return Retorna o valor para distribuir entre os ganhadores, ou 0.
 	 */
 	public int calculaRateio() {
-		try {
-			valida.cenarioAberto(getEstado());
-			return caixaPerdedor - getCaixaCenario();
-		} catch (IllegalAccessError e) {
-			throw new IllegalAccessError("Erro na consulta do total de rateio do cenario: " + e.getMessage());
-		}
+		valida.cenarioAberto(getEstado());
+		return caixaPerdedor - getCaixaCenario();
 	}
 
 	/**

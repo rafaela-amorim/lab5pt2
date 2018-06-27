@@ -28,29 +28,29 @@ public class CenarioTest {
 
 	@Test(expected=NullPointerException.class)
 	public void testCadastraApostaNull() {
-		cen.cadastraAposta(null, 10, "sd");
+		cen.cadastrarAposta(null, 10, "sd");
 	}
 	
 	@Test (expected=IllegalArgumentException.class)
 	public void illegalvalue() {
-		cen.cadastraAposta("nome eu", -54, "nsei");
+		cen.cadastrarAposta("nome eu", -54, "nsei");
 	}
 	
 	@Test(expected=NullPointerException.class)
 	public void testPrevNull() {
-		cen.cadastraAposta("rafaaaahahaha", 10, null);
+		cen.cadastrarAposta("rafaaaahahaha", 10, null);
 	}
 	
 	@Test
 	public void testCadastraAposta() {
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 	}
 	
 	@Test
 	public void testExibeApostas() {
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 		
 		assertEquals("rafa - R$2,50 - VAI ACONTECER\n" +
 					 "minha mae - R$0,25 - VAI ACONTECER", cen.exibeApostas());
@@ -59,27 +59,27 @@ public class CenarioTest {
 
 	@Test
 	public void testFecharAposta() {
-		cen.cadastraAposta("rodrigo professor", 1000, "N VAI ACONTECER");
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rodrigo professor", 1000, "N VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 		
 		cen.fecharAposta(true);
 	}
 
 	@Test
 	public void testTotalDeApostas() {
-		cen.cadastraAposta("rodrigo professor", 1000, "N VAI ACONTECER");
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rodrigo professor", 1000, "N VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 		
 		assertEquals(3, cen.totalDeApostas());
 	}
 
 	@Test
 	public void testGetCaixaCenario() {
-		cen.cadastraAposta("rodrigo professor", 1000, "N VAI ACONTECER");
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rodrigo professor", 1000, "N VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 		
 		cen.fecharAposta(true);
 
@@ -88,9 +88,9 @@ public class CenarioTest {
 
 	@Test
 	public void testValorTotalDeAposta() {
-		cen.cadastraAposta("rodrigo professor", 1000, "N VAI ACONTECER");
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rodrigo professor", 1000, "N VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 		
 		assertEquals(1275, cen.valorTotalDeAposta());
 	}
@@ -121,9 +121,9 @@ public class CenarioTest {
 	
 	@Test
 	public void testGetRateio() {
-		cen.cadastraAposta("rodrigo professor", 1000, "N VAI ACONTECER");
-		cen.cadastraAposta("rafa", 250, "VAI ACONTECER");
-		cen.cadastraAposta("minha mae", 25, "VAI ACONTECER");
+		cen.cadastrarAposta("rodrigo professor", 1000, "N VAI ACONTECER");
+		cen.cadastrarAposta("rafa", 250, "VAI ACONTECER");
+		cen.cadastrarAposta("minha mae", 25, "VAI ACONTECER");
 		
 		cen.fecharAposta(true);
 		

@@ -4,7 +4,7 @@ public enum Estado {
 	
 	OCORREU("Finalizado (ocorreu)"),
 	N_OCORREU("Finalizado (n ocorreu)"),
-	N_FINALIZADO("Não finalizado");
+	N_FINALIZADO("Nao finalizado");
 	
 	private String descricao;
 	
