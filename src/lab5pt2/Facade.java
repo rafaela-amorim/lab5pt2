@@ -2,6 +2,12 @@ package lab5pt2;
 
 import easyaccept.EasyAccept;
 
+/**
+ * Representação da fachada do sistema, controla todas as funções disponiveis
+ * 
+ * @author rafaela
+ *
+ */
 public class Facade {
 
 	public static void main(String[] args) {

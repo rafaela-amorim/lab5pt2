@@ -3,6 +3,12 @@ package lab5pt2;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Representa o sistema de apostas, pode conter diversos cenários diferentes
+ * 
+ * @author rafaela
+ *
+ */
 public class Sistema {
 
 	// Atributos

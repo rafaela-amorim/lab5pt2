@@ -1,5 +1,11 @@
 package lab5pt2;
 
+/**
+ * Representação de um cenario com bonus, extensão de cenário
+ * 
+ * @author rafaela
+ *
+ */
 public class CenarioBonus extends Cenario {
 
 	private int bonus;

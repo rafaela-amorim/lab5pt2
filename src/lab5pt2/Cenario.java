@@ -2,6 +2,12 @@ package lab5pt2;
 
 import java.util.HashMap;
 
+/**
+ * Representação de um cenario, ele pode ter bônus ou não, ambos podem conter várias apostas
+ * 
+ * @author rafaela
+ *
+ */
 public class Cenario {
 
 	// Atributos

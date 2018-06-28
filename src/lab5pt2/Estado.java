@@ -1,5 +1,10 @@
 package lab5pt2;
-
+/**
+ * Representa estado atual de cenário
+ * 
+ * @author rafaela
+ *
+ */
 public enum Estado {
 	
 	OCORREU("Finalizado (ocorreu)"),

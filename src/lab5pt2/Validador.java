@@ -1,5 +1,11 @@
 package lab5pt2;
 
+/**
+ * Classe validadora do sistema, verifica possiveis exceções
+ * 
+ * @author rafaela
+ *
+ */
 public class Validador {
 
 	/**

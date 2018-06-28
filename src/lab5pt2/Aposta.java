@@ -1,5 +1,11 @@
 package lab5pt2;
 
+/**
+ * Representação de uma aposta, aposta pode ser assegurada ou não
+ * 
+ * @author rafaela
+ *
+ */
 public class Aposta {
 
 	// Atributos
