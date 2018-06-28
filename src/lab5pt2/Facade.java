@@ -11,12 +11,12 @@ import easyaccept.EasyAccept;
 public class Facade {
 
 	public static void main(String[] args) {
-		args = new String[] { "lab5pt2.Facade", "/home/rafaelaabs/Documentos/tstEasyAccept/us1_test.txt",
-												"/home/rafaelaabs/Documentos/tstEasyAccept/us2_test.txt",
-												"/home/rafaelaabs/Documentos/tstEasyAccept/us3_test.txt",
-												"/home/rafaelaabs/Documentos/tstEasyAccept/us4_test.txt",
-												"/home/rafaelaabs/Documentos/tstEasyAccept/us5_test.txt",
-												"/home/rafaelaabs/Documentos/tstEasyAccept/us6_test.txt"};
+		args = new String[] { "lab5pt2.Facade", "easyAccept/us1_test.txt",
+												"easyAccept/us2_test.txt",
+												"easyAccept/us3_test.txt",
+												"easyAccept/us4_test.txt",
+												"easyAccept/us5_test.txt",
+												"easyAccept/us6_test.txt"};
 		EasyAccept.main(args);
 	}
 
