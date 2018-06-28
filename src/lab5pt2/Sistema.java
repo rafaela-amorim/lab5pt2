@@ -3,6 +3,9 @@ package lab5pt2;
 import java.util.HashMap;
 import java.util.Map;
 
+import Cenarios.Cenario;
+import Cenarios.CenarioBonus;
+
 /**
  * Representa o sistema de apostas, pode conter diversos cenários diferentes
  * 

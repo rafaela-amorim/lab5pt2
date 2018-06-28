@@ -1,4 +1,4 @@
-package lab5pt2;
+package seguros;
 
 /**
  * Representação de um seguro de valor

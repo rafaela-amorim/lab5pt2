@@ -1,6 +1,9 @@
-package lab5pt2;
+package Cenarios;
 
 import java.util.HashMap;
+
+import lab5pt2.Aposta;
+import lab5pt2.Validador;
 
 /**
  * Representação de um cenario, ele pode ter bônus ou não, ambos podem conter várias apostas

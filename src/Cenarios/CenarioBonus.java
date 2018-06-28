@@ -1,4 +1,4 @@
-package lab5pt2;
+package Cenarios;
 
 /**
  * Representação de um cenario com bonus, extensão de cenário

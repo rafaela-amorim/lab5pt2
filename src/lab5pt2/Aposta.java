@@ -1,5 +1,10 @@
 package lab5pt2;
 
+import seguros.Seguro;
+import seguros.SeguroTaxa;
+import seguros.SeguroValor;
+import seguros.SemSeguro;
+
 /**
  * Representação de uma aposta, aposta pode ser assegurada ou não
  * 

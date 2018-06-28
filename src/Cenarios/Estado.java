@@ -1,4 +1,4 @@
-package lab5pt2;
+package Cenarios;
 /**
  * Representa estado atual de cenário
  * 
